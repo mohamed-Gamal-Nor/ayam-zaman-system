@@ -37,15 +37,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-right">
-                                    @can('اضافةعميل')
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='customers/create') }}">اضافة عميل</a>
-                                    @endcan
-                                    @can('تصديرأكسيل')
-                                        <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page ='customers/export') }}"><i class="fas fa-file-download"></i>&nbsp;تصدير اكسيل</a>
-                                    @endcan
-                                    @can('عملاء محذوفين')
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='customers/trashedCustomers') }}">عملاء محذوفين</a>
-                                    @endcan
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='customers') }}">رجوع</a>
 								</div>
 							</div>
 							<div class="card-body">
@@ -64,7 +56,7 @@
 										</thead>
 										<tbody>
                                             <?php $i=0;?>
-                                            @foreach ($customers  as $key => $customer)
+                                            @foreach ($customersTrash  as $key => $customer)
                                                 <?php $i++?>
                                                 <tr class="text-center">
                                                     <td >{{$i}}</td>
@@ -79,11 +71,9 @@
                                                                 class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                 type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                             <div class="dropdown-menu tx-13">
-                                                                @can('تعديل عميل')
-                                                                <a class="dropdown-item" title="تعديل"  href="{{ route('customers.edit', $customer->id) }}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
-                                                                @endcan
-                                                                @can('حذف عميل')
-                                                                <a class="dropdown-item" data-effect="effect-scale" data-customer_id="{{ $customer->id }}" data-customer="{{ $customer->customers_name }}" data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                @can('عملاء محذوفين')
+                                                                <a class="dropdown-item" data-effect="effect-scale" data-customer_id="{{ $customer->id }}" data-customer="{{ $customer->customers_name }}" data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف نهائي</a>
+                                                                <a class="dropdown-item" href="{{ route('backsoftDelete',$customer->id) }}"><i class="text-success fas fa-undo-alt"></i>&nbsp;&nbsp;استرجاع</a>
                                                                 @endcan
                                                             </div>
                                                         </div>
@@ -105,11 +95,11 @@
                                         <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <form action="{{ route('softDelete','test') }}" method="post">
-                                        @method('GET')
+                                    <form action="{{ route('customers.destroy','test') }}" method="post">
+                                        @method('delete')
                                         {{ csrf_field() }}
                                         <div class="modal-body">
-                                            <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                                            <p>هل انت متاكد من عملية الحذف النهائي ؟</p><br>
                                             <input type="hidden" name="customer_id" id="customer_id" value="">
                                             <input class="form-control" name="customer" id="customer" type="text" readonly>
                                         </div>

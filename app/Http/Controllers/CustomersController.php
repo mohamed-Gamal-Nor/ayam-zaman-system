@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Customers;
 use Illuminate\Http\Request;
-
+use App\Exports\customersExport;
+use Maatwebsite\Excel\Facades\Excel;
 class CustomersController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:قائمةالعملاء', ['only' => ['index']]);
+        $this->middleware('permission:اضافةعميل', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل عميل', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف عميل', ['only' => ['softDelete']]);
+        $this->middleware('permission:عملاء محذوفين', ['only' => ['trashedCustomers','destroy','backSoftDelete']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +27,12 @@ class CustomersController extends Controller
         return view('customers.show_customers',compact('customers'));
     }
 
+
+    public function trashedCustomers()
+    {
+        $customersTrash = customers::onlyTrashed()->get();
+        return view('customers.trash',compact('customersTrash'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -138,5 +154,25 @@ class CustomersController extends Controller
         $customers->delete();
         session()->flash('success','تم حذف العميل بنجاح');
         return redirect('/customers');
+    }
+    public function softDelete(Request $request)
+    {
+        $id = $request->customer_id;
+        $customers= customers::find($id)->delete();
+        session()->flash('success','تم حذف العميل بنجاح');
+        return redirect('/customers');
+    }
+
+    public function backSoftDelete($id)
+    {
+
+        $customers= customers::onlyTrashed()->where('id',$id)->first()->restore();
+        session()->flash('success','تم استرجاع العميل بنجاح');
+        return redirect('/customers');
+    }
+    public function export()
+    {
+
+        return Excel::download(new customersExport, 'customers.xlsx');
     }
 }

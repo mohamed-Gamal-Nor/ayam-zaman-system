@@ -20,6 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string("customers_phone")->unique();
             $table->string("customers_address");
             $table->string("customers_gender");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

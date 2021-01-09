@@ -17,6 +17,7 @@ class PermissionTableSeeder extends Seeder
             'عرض صلاحية',
             'تعديل صلاحية',
             'حذف صلاحية',
+            'اضافة صلاحية',
             //الموظفين
             'الموظفين',
             'قائمةالموظفين',
@@ -25,8 +26,16 @@ class PermissionTableSeeder extends Seeder
             'حذف موظف',
             'عرض موظف',
             'موظفين محذوفين',
-            'تصديرأكسيل',
+            //العملاء
+            'العملاء',
+            'قائمةالعملاء',
+            'اضافةعميل',
+            'تعديل عميل',
+            'حذف عميل',
+            'عملاء محذوفين',
+
             //
+            'تصديرأكسيل',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

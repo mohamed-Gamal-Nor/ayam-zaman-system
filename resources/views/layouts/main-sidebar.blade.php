@@ -104,13 +104,22 @@
 							<li><a class="slide-item" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a></li>
 						</ul>
                     </li>
+                    @can('العملاء')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-bag side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">العملاء</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
-							<li><a class="slide-item" href="{{ url('/' . $page='customers') }}">قائمة العملاء</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='customers/create') }}">اضافة عميل</a></li>
+                            @can('قائمةالعملاء')
+                            <li><a class="slide-item" href="{{ url('/' . $page='customers') }}">قائمة العملاء</a></li>
+                            @endcan
+                            @can('اضافةعميل')
+                            <li><a class="slide-item" href="{{ url('/' . $page='customers/create') }}">اضافة عميل</a></li>
+                            @endcan
+                            @can('عملاء محذوفين')
+                            <li><a class="slide-item" href="{{ url('/' . $page='customers/trashedCustomers') }}">عملاء محذوفين</a></li>
+                            @endcan
 						</ul>
                     </li>
+                    @endcan
                     @can('الموظفين')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-user-tie side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الموظفين</span><i class="angle fe fe-chevron-down"></i></a>
