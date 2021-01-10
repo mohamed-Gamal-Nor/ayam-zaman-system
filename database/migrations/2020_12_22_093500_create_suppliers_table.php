@@ -25,6 +25,7 @@ class CreateSuppliersTable extends Migration
             $table->string("Type_of_supply");
             $table->string("status",10);
             $table->string("Type_of_pay",10);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

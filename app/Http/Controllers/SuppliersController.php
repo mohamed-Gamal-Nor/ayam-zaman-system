@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class SuppliersController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:قائمةالموردين', ['only' => ['index']]);
+        $this->middleware('permission:اضافةمورد', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل مورد', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف مورد', ['only' => ['softDelete']]);
+        $this->middleware('permission:عرض مورد', ['only' => ['show']]);
+        $this->middleware('permission:تصديرأكسيل', ['only' => ['export']]);
+        $this->middleware('permission:تفعيل/ تعطيل مورد', ['only' => ['activeSupplier','supplierActive','supplierDisable','disableSupplier']]);
+        $this->middleware('permission:موردين محذوفين', ['only' => ['trashedSupplier','destroy','backSoftDelete']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +31,11 @@ class SuppliersController extends Controller
         return view('suppliers.showSupplier',compact('suppliers'));
     }
 
+    public function trashedSupplier()
+    {
+        $suppliersTrash = suppliers::onlyTrashed()->get();
+        return view('suppliers.trash',compact('suppliersTrash'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -173,6 +191,23 @@ class SuppliersController extends Controller
         session()->flash('success','تم حذف المورد بنجاح');
         return redirect('/suppliers');
     }
+
+    public function softDelete(Request $request)
+    {
+        $id = $request->supplier_id;
+        $suppliers= suppliers::find($id)->delete();
+        session()->flash('success','تم حذف المورد بنجاح');
+        return redirect('/suppliers');
+    }
+
+    public function backSoftDelete($id)
+    {
+
+        $suppliers= suppliers::onlyTrashed()->where('id',$id)->first()->restore();
+        session()->flash('success','تم استرجاع المورد بنجاح');
+        return redirect('/suppliers');
+    }
+
     public function activeSupplier(Request $request)
     {
         $suppliers = suppliers::where('status', "مفعل")->get();

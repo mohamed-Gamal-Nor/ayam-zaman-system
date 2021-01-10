@@ -139,7 +139,7 @@
                                         <h6 class="modal-title">حذف الموظف</h6><button aria-label="Close" class="close"
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <form action="{{ route('softDelete','test') }}" method="post">
+                                    <form action="{{ route('softDelete.employees','test') }}" method="post">
                                         {{ method_field('delete') }}
                                         {{ csrf_field() }}
                                         <div class="modal-body">

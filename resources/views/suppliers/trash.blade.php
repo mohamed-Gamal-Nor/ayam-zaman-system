@@ -38,14 +38,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-right">
-                                    @can('قائمةالموردين')
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a>
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/active') }}">موردين فعالين</a>
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/notactive') }}">موردين موقوفين</a>
-                                    @endcan
-                                    @can('موردين محذوفين')
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/trashEmployees') }}">موردين محذوفين</a>
-                                    @endcan
+									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers') }}">رجوع</a>
 								</div>
 							</div>
 							<div class="card-body">
@@ -63,7 +56,7 @@
 										</thead>
 										<tbody>
                                             <?php $i=0;?>
-                                            @foreach ($suppliers  as $key => $supplier)
+                                            @foreach ($suppliersTrash  as $key => $supplier)
                                                 <?php $i++?>
                                                 <tr class="text-center">
                                                     <td >{{$i}}</td>
@@ -83,21 +76,12 @@
                                                                 class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                 type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                             <div class="dropdown-menu tx-13">
-                                                                @can('تعديل مورد')
-                                                                <a class="dropdown-item" title="تعديل"  href="{{ route('suppliers.edit', $supplier->id) }}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
-                                                                @endcan
+
                                                                 @can('حذف مورد')
-                                                                <a class="dropdown-item"  data-effect="effect-scale" data-supplier_id="{{ $supplier->id }}" data-supplier_name="{{$supplier->supplier_name}}" data-toggle="modal" title="حذف" href="#modaldemo8"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                <a class="dropdown-item"  data-effect="effect-scale" data-supplier_id="{{ $supplier->id }}" data-supplier_name="{{$supplier->supplier_name}}" data-toggle="modal" title="حذف" href="#modaldemo8"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف نهائي</a>
                                                                 @endcan
-                                                                @can('عرض مورد')
-                                                                <a class="dropdown-item"   title="عرض الملف" href="{{ route('suppliers.show', $supplier->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
-                                                                @endcan
-                                                                @can('تفعيل/ تعطيل مورد')
-                                                                @if($supplier->status == 'مفعل')
-                                                                    <a class="dropdown-item text-danger"   title="تعطيل" href="{{ url('suppliers/suppliersDisable/'.$supplier->id) }}">تعطيل</a>
-                                                                @elseif($supplier->status == 'غير مفعل')
-                                                                    <a class="dropdown-item text-success"  title="تفعيل" href="{{ url('suppliers/suppliersActive/'.$supplier->id)}}">تفعيل</a>
-                                                                @endif
+                                                                @can('موردين محذوفين')
+                                                                <a class="dropdown-item" title="استرجاع"  href="{{ route('backsoftDelete.suppliers', $supplier->id) }}"><i class="text-success fas fa-undo-alt"></i>&nbsp;&nbsp;أسترجاع </a>
                                                                 @endcan
                                                             </div>
                                                         </div>

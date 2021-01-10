@@ -72,19 +72,6 @@
 						</ul>
                     </li>
                     <li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-users side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
-						<ul class="slide-menu">
-                            <li><a class="slide-item" href="{{ url('/' . $page='users') }}">قائمة المستخدمين</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='users/active') }}">قائمة المستخدمين المفعلين</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='users/notactive') }}">قائمة المستخدمين الموقوفين</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='users/create') }}">أضافة مستخدم</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='roles') }}">صلاحيات المستخدمين</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='roles/create') }}">اضافة صلاحية</a></li>
-
-						</ul>
-                    </li>
-
-                    <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-box-open side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المخازن</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('/' . $page='storesMaterials') }}">مخازن خامات</a></li>
@@ -94,16 +81,36 @@
 							<li><a class="slide-item" href="{{ url('/' . $page='products') }}">المنتجات</a></li>
 							<li><a class="slide-item" href="{{ url('/' . $page='products/create') }}">اضافة منتج</a></li>
 						</ul>
-					</li>
+                    </li>
+                    <li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-users side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
+						<ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ url('/' . $page='users') }}">قائمة المستخدمين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='users/active') }}">قائمة المستخدمين المفعلين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='users/notactive') }}">قائمة المستخدمين الموقوفين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='users/create') }}">أضافة مستخدم</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='roles') }}">صلاحيات المستخدمين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='roles/create') }}">اضافة صلاحية</a></li>
+						</ul>
+                    </li>
+                    @can('الموردين')
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-briefcase side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الموردين</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
-							<li><a class="slide-item" href="{{ url('/' . $page='suppliers') }}">قائمة الموردين</a></li>
+                            @can('قائمةالموردين')
+                            <li><a class="slide-item" href="{{ url('/' . $page='suppliers') }}">قائمة الموردين</a></li>
 							<li><a class="slide-item" href="{{ url('/' . $page='suppliers/active') }}">قائمة الموردين المفعلين</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='suppliers/notactive') }}">قائمة الموردين الموقوفين</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='suppliers/notactive') }}">قائمة الموردين الموقوفين</a></li>
+                            @endcan
+                            @can('اضافةمورد')
+                            <li><a class="slide-item" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a></li>
+                            @endcan
+                            @can('موردين محذوفين')
+                            <li><a class="slide-item" href="{{ url('/' . $page='suppliers/trashEmployees') }}">موردين محذوفين</a></li>
+                            @endcan
 						</ul>
                     </li>
+                    @endcan
                     @can('العملاء')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-bag side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">العملاء</span><i class="angle fe fe-chevron-down"></i></a>
@@ -142,6 +149,16 @@
 						</ul>
                     </li>
                     @endcan
+                    <li class="side-item side-item-category">خروج</li>
+					<li class="slide">
+                        <a class="side-menu__item" href="{{ route('locked')}}"><i class="fas fa-lock side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">شاشة القفل</span></a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" ><i class="bx bx-log-out side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">تسجيل خروج</span></a>
+                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none">
+                            @csrf
+                        </form>
+					</li>
 				</ul>
 			</div>
 		</aside>

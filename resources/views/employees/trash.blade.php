@@ -91,7 +91,7 @@
                                                             <div class="dropdown-menu tx-13">
                                                                 @can('موظفين محذوفين')
                                                                 <a class="dropdown-item" data-effect="effect-scale" data-employee_id="{{ $employee->id }}" data-employees_name="{{ $employee->employees_name }}" data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف نهائي</a>
-                                                                <a class="dropdown-item" href="{{ route('backsoftDelete',$employee->id) }}"><i class="text-success fas fa-undo-alt"></i>&nbsp;&nbsp;استرجاع</a>
+                                                                <a class="dropdown-item" href="{{ route('backsoftDelete.employees',$employee->id) }}"><i class="text-success fas fa-undo-alt"></i>&nbsp;&nbsp;استرجاع</a>
                                                                 @endcan
                                                             </div>
                                                         </div>

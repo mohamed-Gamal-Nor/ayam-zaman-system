@@ -25,20 +25,26 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
     Route::resource('sections', 'App\Http\Controllers\SectionsController');
     Route::resource('products', 'App\Http\Controllers\ProductsController');
+    Route::resource('storesMaterials','App\Http\Controllers\StoresController');
+    Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
     Route::resource('roles','App\Http\Controllers\RoleController');
+    Route::resource('sectionUsers','App\Http\Controllers\SectionUSersController');
     Route::get('users/active','App\Http\Controllers\UserController@activeUsers');
     Route::get('users/notactive','App\Http\Controllers\UserController@activeNotUsers');
     Route::get('users/userdisable/{id}','App\Http\Controllers\UserController@userdisable');
     Route::get('users/userActive/{id}','App\Http\Controllers\UserController@userActive');
     Route::resource('users','App\Http\Controllers\UserController');
-    Route::resource('sectionUsers','App\Http\Controllers\SectionUSersController');
-    Route::resource('storesMaterials','App\Http\Controllers\StoresController');
-    Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
+    //suppliers route
     Route::get('suppliers/active','App\Http\Controllers\SuppliersController@activeSupplier');
     Route::get('suppliers/notactive','App\Http\Controllers\SuppliersController@supplierDisable');
     Route::get('suppliers/suppliersDisable/{id}','App\Http\Controllers\SuppliersController@disableSupplier');
     Route::get('suppliers/suppliersActive/{id}','App\Http\Controllers\SuppliersController@supplierActive');
+    Route::get('suppliers/export', 'App\Http\Controllers\SuppliersController@export');
+    Route::get('suppliers/softDelete', 'App\Http\Controllers\SuppliersController@softDelete')->name('softDelete.suppliers');
+    Route::get('suppliers/backSoftDelete/{id}', 'App\Http\Controllers\SuppliersController@backSoftDelete')->name('backsoftDelete.suppliers');
+    Route::get('suppliers/trashEmployees', 'App\Http\Controllers\SuppliersController@trashedSupplier');
     Route::resource('suppliers','App\Http\Controllers\SuppliersController');
+    // end suppliers route
     //customers route
     Route::get('customers/softDelete', 'App\Http\Controllers\CustomersController@softDelete')->name('softDelete');
     Route::get('customers/backSoftDelete/{id}', 'App\Http\Controllers\CustomersController@backSoftDelete')->name('backsoftDelete');
@@ -52,14 +58,18 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::get('employees/disableEmployee/{id}','App\Http\Controllers\EmployeesController@disableEmployee');
     Route::get('employees/employeeActive/{id}','App\Http\Controllers\EmployeesController@employeeActive');
     Route::get('employees/export', 'App\Http\Controllers\EmployeesController@export');
-    Route::get('employees/softDelete', 'App\Http\Controllers\EmployeesController@softDelete')->name('softDelete');
-    Route::get('employees/backSoftDelete/{id}', 'App\Http\Controllers\EmployeesController@backSoftDelete')->name('backsoftDelete');
+    Route::get('employees/softDelete', 'App\Http\Controllers\EmployeesController@softDelete')->name('softDelete.employees');
+    Route::get('employees/backSoftDelete/{id}', 'App\Http\Controllers\EmployeesController@backSoftDelete')->name('backsoftDelete.employees');
     Route::get('employees/trashEmployees', 'App\Http\Controllers\EmployeesController@trashedEmployees');
     Route::resource('employees','App\Http\Controllers\EmployeesController');
     //end employees route
     Route::get('advancePayment/search', 'App\Http\Controllers\AdvancePaymentController@search');
     Route::resource('advancePayment','App\Http\Controllers\AdvancePaymentController');
 });
+
+
+
+
 Route::resource('materials','App\Http\Controllers\MaterialsController');
 Route::resource('ClosingSalary','App\Http\Controllers\ClosingSalaryController');
 
