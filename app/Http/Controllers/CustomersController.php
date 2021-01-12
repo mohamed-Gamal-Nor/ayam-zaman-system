@@ -149,11 +149,12 @@ class CustomersController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
-        $customers= customers::find($id);
-        $customers->delete();
+        $id = $request->customer_id;
+
+        $customers= customers::onlyTrashed()->where('id',$id)->forceDelete();
         session()->flash('success','تم حذف العميل بنجاح');
         return redirect('/customers');
+
     }
     public function softDelete(Request $request)
     {

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateCustomersTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('customers_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string("customers_phone")->unique();
             $table->string("customers_address");
             $table->string("customers_gender");

@@ -12,6 +12,9 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
+
+            //
+            'تصديرأكسيل',
             //الصلاحيات
             'قائمة الصلاحيات',
             'عرض صلاحية',
@@ -42,8 +45,16 @@ class PermissionTableSeeder extends Seeder
             'عرض مورد',
             'تفعيل/ تعطيل مورد',
             'موردين محذوفين',
-            //
-            'تصديرأكسيل',
+            //المستخدمين
+            'المستخدمين',
+            'قائمةالمستخدمين',
+            'اضافةمستخدم',
+            'تعديل مستخدم',
+            'حذف مستخدم',
+            'عرض مستخدم',
+            'تفعيل/ تعطيل مستخدم',
+            'مستخدمين محذوفين',
+
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

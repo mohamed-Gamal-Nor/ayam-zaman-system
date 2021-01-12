@@ -82,17 +82,30 @@
 							<li><a class="slide-item" href="{{ url('/' . $page='products/create') }}">اضافة منتج</a></li>
 						</ul>
                     </li>
+                    @can('المستخدمين')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-users side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
+                            @can('قائمةالمستخدمين')
                             <li><a class="slide-item" href="{{ url('/' . $page='users') }}">قائمة المستخدمين</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='users/active') }}">قائمة المستخدمين المفعلين</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='users/notactive') }}">قائمة المستخدمين الموقوفين</a></li>
+                            @endcan
+                            @can("اضافةمستخدم")
                             <li><a class="slide-item" href="{{ url('/' . $page='users/create') }}">أضافة مستخدم</a></li>
+                            @endcan
+                            @can('مستخدمين محذوفين')
+                            <li><a class="slide-item" href="{{ url('/' . $page='users/trashUser') }}">مستخدمين محذوفين</a></li>
+                            @endcan
+                            @can('قائمة الصلاحيات')
                             <li><a class="slide-item" href="{{ url('/' . $page='roles') }}">صلاحيات المستخدمين</a></li>
+                            @endcan
+                            @can('اضافة صلاحية')
                             <li><a class="slide-item" href="{{ url('/' . $page='roles/create') }}">اضافة صلاحية</a></li>
+                            @endcan
 						</ul>
                     </li>
+                    @endcan
                     @can('الموردين')
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-briefcase side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الموردين</span><i class="angle fe fe-chevron-down"></i></a>

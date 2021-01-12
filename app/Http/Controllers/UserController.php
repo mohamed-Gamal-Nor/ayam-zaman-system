@@ -10,6 +10,17 @@ use Hash;
 class UserController extends Controller
 {
 
+    function __construct()
+    {
+
+        $this->middleware('permission:قائمةالمستخدمين', ['only' => ['index']]);
+        $this->middleware('permission:اضافةمستخدم', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل مستخدم', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف مستخدم', ['only' => ['softDelete']]);
+        $this->middleware('permission:عرض مستخدم', ['only' => ['show']]);
+        $this->middleware('permission:تفعيل/ تعطيل مستخدم', ['only' => ['activeUsers','userActive','activeNotUsers','userdisable']]);
+        $this->middleware('permission:مستخدمين محذوفين', ['only' => ['trashedUser','destroy','backSoftDelete']]);
+    }
     /**
     * Display a listing of the resource.
     *
@@ -19,6 +30,12 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('user.show_users',compact('users'));
+    }
+
+    public function trashedUser()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('user.trash',compact('users'));
     }
     /**
 * Show the form for creating a new resource.
@@ -281,15 +298,35 @@ class UserController extends Controller
 */
     public function destroy(Request $request)
     {
-        $id = $request->user_id;
-        $user = User::find($id);
+
+        $user = User::onlyTrashed()->where('id',$request->user_id)->get();
+
+        echo $user[0]['id'];
+
         $path = public_path().'/images/users/';
-        if($user->user_image != ''  && $user->user_image != null){
-            $file_old = $path.$user->user_image;
+        if($user[0]['user_image'] != ''  || $user[0]['user_image'] != null){
+            $file_old = $path.$user[0]['user_image'];
             unlink($file_old);
         }
-        $user->delete();
+        $user = User::onlyTrashed()->where('id',$request->user_id);
+        $user->forceDelete();
         session()->flash('success','تم حذف المستخدم بنجاح');
+        return redirect('/users');
+    }
+
+    public function softDelete(Request $request)
+    {
+        $id = $request->user_id;
+        $user= User::find($id)->delete();
+        session()->flash('success','تم حذف المستخدم بنجاح');
+        return redirect('/users');
+    }
+
+    public function backSoftDelete($id)
+    {
+
+        $suppliers= User::onlyTrashed()->where('id',$id)->first()->restore();
+        session()->flash('success','تم استرجاع المستخدم بنجاح');
         return redirect('/users');
     }
 

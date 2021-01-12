@@ -221,15 +221,17 @@ class EmployeesController extends Controller
     {
 
         $id = $request->employee_id;
-        $employees= employees::find($id);
-        $employees->delete();
+        $employees= employees::onlyTrashed()->where('id',$id)->forceDelete();
         session()->flash('success','تم حذف الموظف بنجاح');
         return redirect('/employees');
+
     }
     public function softDelete(Request $request)
     {
         $id = $request->employee_id;
-        $employees= employees::find($id)->delete();
+        $employees= employees::find($id);
+
+        $employees->delete();
         session()->flash('success','تم حذف الموظف بنجاح');
         return redirect('/employees');
     }

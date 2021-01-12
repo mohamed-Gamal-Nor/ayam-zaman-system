@@ -186,8 +186,7 @@ class SuppliersController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->supplier_id;
-        $suppliers = suppliers::find($id);
-        $suppliers->delete();
+        $suppliers = suppliers::onlyTrashed()->where('id',$id)->forceDelete();
         session()->flash('success','تم حذف المورد بنجاح');
         return redirect('/suppliers');
     }

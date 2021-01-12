@@ -140,7 +140,7 @@
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <form action="{{ route('softDelete.employees','test') }}" method="post">
-                                        {{ method_field('delete') }}
+                                        @method('GET')
                                         {{ csrf_field() }}
                                         <div class="modal-body">
                                             <p>هل انت متاكد من عملية الحذف ؟</p><br>
@@ -151,8 +151,9 @@
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                                             <button type="submit" class="btn btn-danger">تاكيد</button>
                                         </div>
+                                    </form>
                                 </div>
-                                </form>
+
                             </div>
                         </div>
                     </div>

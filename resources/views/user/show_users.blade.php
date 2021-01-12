@@ -37,16 +37,21 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-right">
+                                    @can('قائمةالمستخدمين')
 									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users/create') }}">اضافة مستخدم</a>
 									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users/active') }}">مستخدمين فعالين</a>
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users/notactive') }}">مستخدمين موقوفين</a>
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users/notactive') }}">مستخدمين موقوفين</a>
+                                    @endcan
+                                    @can('مستخدمين محذوفين')
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users/trashUser') }}">مستخدمين محذوفين</a>
+                                    @endcan
 								</div>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
 									<table id="example2" class="table key-buttons text-md-nowrap table-hover" data-page-length='50'>
 										<thead>
-											<tr class="table-secondary">
+											<tr class="table-secondary text-center">
                                                 <th class="border-bottom-0">#</th>
                                                 <th class="border-bottom-0">صورة</th>
 												<th class="border-bottom-0">اسم المستخدم</th>
@@ -93,15 +98,30 @@
                                                             @endforeach
                                                         @endif
                                                     </td>
-                                                    <td style="width: 23%">
-                                                        <a class="modal-effect btn btn-sm btn-info" title="تعديل"  href="{{ route('users.edit', $user->id) }}">تعديل</a>
-                                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" data-user_id="{{ $user->id }}" data-username="{{ $user->user_fname }} {{ $user->user_lname }}" data-toggle="modal" title="حذف" href="#modaldemo8" >حذف</a>
-                                                        <a class="modal-effect btn btn-sm btn-success"  title="عرض الملف" href="{{ route('users.show', $user->id) }}">عرض</a>
-                                                        @if($user->status == 'مفعل')
-                                                            <a class="modal-effect btn btn-sm btn-warning"  title="تعطيل" href="{{ url('users/userdisable/'.$user->id) }}">تعطيل</a>
-                                                        @elseif($user->status == 'غير مفعل')
-                                                            <a class="modal-effect btn btn-sm btn-secondary"  title="تفعيل" href="{{ url('users/userActive/'.$user->id)}}">تفعيل</a>
-                                                        @endif
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button aria-expanded="false" aria-haspopup="true"
+                                                                class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
+                                                                type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
+                                                            <div class="dropdown-menu tx-13">
+                                                                @can('تعديل مستخدم')
+                                                                <a class="dropdown-item" title="تعديل"  href="{{ route('users.edit', $user->id) }}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                @endcan
+                                                                @can('حذف مستخدم')
+                                                                <a class="dropdown-item" data-effect="effect-scale" data-user_id="{{ $user->id }}" data-username="{{ $user->user_fname }} {{ $user->user_lname }}" data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                @endcan
+                                                                @can('عرض مستخدم')
+                                                                <a class="dropdown-item"  title="عرض الملف" href="{{ route('users.show', $user->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
+                                                                @endcan
+                                                                @can('تفعيل/ تعطيل مستخدم')
+                                                                @if($user->status  == 'مفعل')
+                                                                    <a class="dropdown-item text-danger"  title="تعطيل" href="{{ url('users/userdisable/'.$user->id) }}">تعطيل</a>
+                                                                @elseif($user->status  == 'غير مفعل')
+                                                                    <a class="dropdown-item text-success"  title="تفعيل" href="{{ url('users/userActive/'.$user->id)}}">تفعيل</a>
+                                                                @endif
+                                                                @endcan
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -120,8 +140,8 @@
                                         <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <form action="{{ route('users.destroy','test') }}" method="post">
-                                        {{ method_field('delete') }}
+                                    <form action="{{ route('softDelete.users') }}" method="post">
+                                        @method('get')
                                         {{ csrf_field() }}
                                         <div class="modal-body">
                                             <p>هل انت متاكد من عملية الحذف ؟</p><br>

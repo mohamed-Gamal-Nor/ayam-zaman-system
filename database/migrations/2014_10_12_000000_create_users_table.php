@@ -40,6 +40,7 @@ class CreateUsersTable extends Migration
             $table->text("user_Portfolio")->nullable();
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('section_u_sers')->onDelete('cascade');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

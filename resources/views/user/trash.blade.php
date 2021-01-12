@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    قائمة الموردين - سنتر ايام زمان
+مستخدمين محذوفين - سنتر ايام زمان
 @stop
 @section('css')
 <!-- Internal Data table css -->
@@ -16,10 +16,9 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">الموردين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة الموردين</span>
+							<h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ مستخدمين محذوفين</span>
 						</div>
 					</div>
-
 				</div>
 				<!-- breadcrumb -->
 @endsection
@@ -38,14 +37,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-right">
-                                    @can('قائمةالموردين')
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a>
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/active') }}">موردين فعالين</a>
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/notactive') }}">موردين موقوفين</a>
-                                    @endcan
-                                    @can('موردين محذوفين')
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/trashEmployees') }}">موردين محذوفين</a>
-                                    @endcan
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='users') }}">رجوع</a>
 								</div>
 							</div>
 							<div class="card-body">
@@ -54,27 +46,49 @@
 										<thead>
 											<tr class="table-secondary text-center">
                                                 <th class="border-bottom-0">#</th>
-												<th class="border-bottom-0">اسم المورد</th>
+                                                <th class="border-bottom-0">صورة</th>
+												<th class="border-bottom-0">اسم المستخدم</th>
+                                                <th class="border-bottom-0">البريد الالكتروني</th>
                                                 <th class="border-bottom-0">الهاتف</th>
-                                                <th class="border-bottom-0">اسم المستفيد</th>
+                                                <th class="border-bottom-0">الوظيفة</th>
+                                                <th class="border-bottom-0">القسم</th>
                                                 <th class="border-bottom-0">الحالة</th>
-                                                <th class="border-bottom-0"> العمليات</th>
+                                                <th class="border-bottom-0">الصلاحيات</th>
+                                                <th class="border-bottom-0">العمليات</th>
 											</tr>
 										</thead>
 										<tbody>
                                             <?php $i=0;?>
-                                            @foreach ($suppliers  as $key => $supplier)
+                                            @foreach ($users  as $key => $user)
                                                 <?php $i++?>
                                                 <tr class="text-center">
                                                     <td >{{$i}}</td>
-                                                    <td >{{$supplier->supplier_name}}</td>
-                                                    <td >{{$supplier->supllier_phone }}</td>
-                                                    <td >{{$supplier->Beneficiary_name }}</td>
+                                                    <td ><img alt="user-img" class="avatar avatar-md brround"
+                                                        @if(empty($user->user_image) and $user->user_gender === 'ذكر')
+                                                            src="{{asset('images/users/avatar.png')}}"
+                                                        @elseif(empty($user->user_image) and $user->user_gender === 'أنثي')
+                                                            src="{{asset('images/users/avtar-female.png')}}"
+                                                        @else
+                                                            src="{{asset('images/users')}}/{{$user->user_image}}"
+                                                        @endif
+                                                    /></td>
+                                                    <td >{{$user->user_fname}} {{ $user->user_lname }}</td>
+                                                    <td >{{$user->email }}</td>
+                                                    <td >{{$user->user_phone }}</td>
+                                                    <td >{{$user->user_jopName }}</td>
+                                                    <td >{{$user->section->section_name}}</td>
                                                     <td >
-                                                        @if($supplier->status == 'مفعل')
-                                                            <span class="label text-success d-flex"><div class="dot-label bg-success ml-1"></div>{{$supplier->status }}</span>
-                                                        @elseif($supplier->status == 'غير مفعل')
-                                                            <span class="label text-danger d-flex"><div class="dot-label bg-danger ml-1"></div>{{$supplier->status }}</span>
+                                                        @if($user->status == 'مفعل')
+                                                            <span class="label text-success d-flex"><div class="dot-label bg-success ml-1"></div>{{$user->status }}</span>
+                                                        @elseif($user->status == 'غير مفعل')
+                                                            <span class="label text-danger d-flex"><div class="dot-label bg-danger ml-1"></div>{{$user->status }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (!empty($user->getRoleNames()))
+                                                            @foreach ($user->getRoleNames() as $v)
+                                                                <label class="badge badge-success">{{ $v }}</label>
+                                                            @endforeach
                                                         @endif
                                                     </td>
                                                     <td>
@@ -83,21 +97,11 @@
                                                                 class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                 type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                             <div class="dropdown-menu tx-13">
-                                                                @can('تعديل مورد')
-                                                                <a class="dropdown-item" title="تعديل"  href="{{ route('suppliers.edit', $supplier->id) }}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                @can('حذف مستخدم')
+                                                                <a class="dropdown-item" data-effect="effect-scale" data-user_id="{{ $user->id }}" data-username="{{ $user->user_fname }} {{ $user->user_lname }}" data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف نهائي</a>
                                                                 @endcan
-                                                                @can('حذف مورد')
-                                                                <a class="dropdown-item"  data-effect="effect-scale" data-supplier_id="{{ $supplier->id }}" data-supplier_name="{{$supplier->supplier_name}}" data-toggle="modal" title="حذف" href="#modaldemo8"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
-                                                                @endcan
-                                                                @can('عرض مورد')
-                                                                <a class="dropdown-item"   title="عرض الملف" href="{{ route('suppliers.show', $supplier->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
-                                                                @endcan
-                                                                @can('تفعيل/ تعطيل مورد')
-                                                                @if($supplier->status == 'مفعل')
-                                                                    <a class="dropdown-item text-danger"   title="تعطيل" href="{{ url('suppliers/suppliersDisable/'.$supplier->id) }}">تعطيل</a>
-                                                                @elseif($supplier->status == 'غير مفعل')
-                                                                    <a class="dropdown-item text-success"  title="تفعيل" href="{{ url('suppliers/suppliersActive/'.$supplier->id)}}">تفعيل</a>
-                                                                @endif
+                                                                @can('مستخدمين محذوفين')
+                                                                <a class="dropdown-item" title="تعديل"  href="{{ route('backsoftDelete.users', $user->id) }}"><i class="text-success fas fa-undo-alt"></i>&nbsp;&nbsp;استرجاع</a>
                                                                 @endcan
                                                             </div>
                                                         </div>
@@ -116,16 +120,16 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content modal-content-demo">
                                     <div class="modal-header">
-                                        <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
+                                        <h6 class="modal-title">حذف المستخدم نهائي</h6><button aria-label="Close" class="close"
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <form action="{{ route('softDelete.suppliers','test') }}" method="post">
-                                        @method('GET')
+                                    <form action="{{ route('users.destroy','test') }}" method="post">
+                                        @method('delete')
                                         {{ csrf_field() }}
                                         <div class="modal-body">
-                                            <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                                            <input type="hidden" name="supplier_id" id="supplier_id" value="">
-                                            <input class="form-control" name="supplier_name" id="supplier_name" type="text" readonly>
+                                            <p>هل انت متاكد من عملية الحذف النهائي ؟</p><br>
+                                            <input type="hidden" name="user_id" id="user_id" value="">
+                                            <input class="form-control" name="username" id="username" type="text" readonly>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
@@ -166,11 +170,11 @@
 <script>
     $('#modaldemo8').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
-        var supplier_id = button.data('supplier_id')
-        var supplier_name = button.data('supplier_name')
+        var user_id = button.data('user_id')
+        var username = button.data('username')
         var modal = $(this)
-        modal.find('.modal-body #supplier_id').val(supplier_id);
-        modal.find('.modal-body #supplier_name').val(supplier_name);
+        modal.find('.modal-body #user_id').val(user_id);
+        modal.find('.modal-body #username').val(username);
     })
 </script>
 @endsection

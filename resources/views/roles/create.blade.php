@@ -57,7 +57,7 @@
                 </div>
                 <div class="row">
                     <!-- col -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <ul id="treeview1">
                             <li><a href="#">الصلاحيات</a>
                                 <ul>
