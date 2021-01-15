@@ -10,6 +10,8 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -24,13 +26,25 @@
 				<!-- breadcrumb -->
 @endsection
 @section('content')
-                @if (session()->has('edit'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('edit') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                @if (session()->has('successActive'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم تفعيل المورد بنجاح",
+                            type: "success"
+                        });
+                    }
+                </script>
+                @endif
+                @if (session()->has('successNotActive'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: "تم تعطيل المورد بنجاح",
+                            type: "error"
+                        });
+                    }
+                </script>
                 @endif
 				<!-- row -->
 				<div class="row">
@@ -38,9 +52,16 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-right">
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a>
+                                    @can('اضافةمورد')
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/create') }}">اضافة مورد</a>
+                                    @endcan
+                                    @can('قائمةالموردين')
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers') }}">موردين فعالين</a>
+                                    @endcan
+                                    @can('تفعيل/ تعطيل مورد')
 									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/active') }}">موردين فعالين</a>
-									<a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/notactive') }}">موردين موقوفين</a>
+                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='suppliers/notactive') }}">موردين موقوفين</a>
+                                    @endcan
 								</div>
 							</div>
 							<div class="card-body">
@@ -143,6 +164,9 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 <script>
     $('#modaldemo8').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)

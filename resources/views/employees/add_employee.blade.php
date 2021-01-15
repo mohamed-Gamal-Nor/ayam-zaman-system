@@ -7,7 +7,8 @@
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 <!---Internal Fileupload css-->
 <link href="{{URL::asset('assets/plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css"/>
-
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -33,14 +34,15 @@
                         </button>
                     </div>
                 @endif
-
                 @if (session()->has('Add'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('Add') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " تم أضافة الموظف بنجاح",
+                                type: "success"
+                            });
+                        }
+                    </script>
                 @endif
 				<!-- row -->
 				<div class="row">
@@ -201,4 +203,7 @@
 <!--Internal Fileuploads js-->
 <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 @endsection

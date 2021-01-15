@@ -65,21 +65,23 @@
 						</ul>
                     </li>
                     <li class="side-item side-item-category">الاعدادات</li>
-                    <li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-layers side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">اقسام العمل</span><i class="angle fe fe-chevron-down"></i></a>
-						<ul class="slide-menu">
-							<li><a class="slide-item" href="{{ url('/' . $page='sectionUsers') }}">قائمة الاقسام</a></li>
-						</ul>
-                    </li>
+
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-box-open side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المخازن</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('/' . $page='storesMaterials') }}">مخازن خامات</a></li>
 							<li><a class="slide-item" href="{{ url('/' . $page='materials') }}">الخامات</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='storesGoods') }}">مخازن منتجات</a></li>
-                            <li><a class="slide-item" href="{{ url('/' . $page='sections') }}">اقسام المنتجات</a></li>
+
 							<li><a class="slide-item" href="{{ url('/' . $page='products') }}">المنتجات</a></li>
 							<li><a class="slide-item" href="{{ url('/' . $page='products/create') }}">اضافة منتج</a></li>
+						</ul>
+                    </li>
+                    <li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-layers side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الاقسام</span><i class="angle fe fe-chevron-down"></i></a>
+						<ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ url('/' . $page='sectionUsers') }}">أقسام الموظفين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . $page='sections') }}">اقسام المنتجات</a></li>
 						</ul>
                     </li>
                     @can('المستخدمين')

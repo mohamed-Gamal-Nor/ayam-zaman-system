@@ -9,6 +9,8 @@
 <link href="{{URL::asset('assets/plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css"/>
 <!--Internal  Font Awesome -->
 <link href="{{URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -34,14 +36,15 @@
                     </button>
                 </div>
                 @endif
-
                 @if (session()->has('Edit'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session()->get('Edit') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " تم تعديل المستخدم بنجاح",
+                                type: "success"
+                            });
+                        }
+                    </script>
                 @endif
 				<!-- row -->
 				<div class="row row-sm">
@@ -488,4 +491,7 @@
 <!--Internal Fileuploads js-->
 <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 @endsection

@@ -187,7 +187,7 @@ class SuppliersController extends Controller
     {
         $id = $request->supplier_id;
         $suppliers = suppliers::onlyTrashed()->where('id',$id)->forceDelete();
-        session()->flash('success','تم حذف المورد بنجاح');
+        session()->flash('successDestroy','تم حذف المورد بنجاح');
         return redirect('/suppliers');
     }
 
@@ -195,7 +195,7 @@ class SuppliersController extends Controller
     {
         $id = $request->supplier_id;
         $suppliers= suppliers::find($id)->delete();
-        session()->flash('success','تم حذف المورد بنجاح');
+        session()->flash('successSoft','تم حذف المورد بنجاح');
         return redirect('/suppliers');
     }
 
@@ -203,7 +203,7 @@ class SuppliersController extends Controller
     {
 
         $suppliers= suppliers::onlyTrashed()->where('id',$id)->first()->restore();
-        session()->flash('success','تم استرجاع المورد بنجاح');
+        session()->flash('successBackSoft','تم استرجاع المورد بنجاح');
         return redirect('/suppliers');
     }
 
@@ -218,7 +218,7 @@ class SuppliersController extends Controller
         $suppliers->update([
             'status' => 'مفعل',
         ]);
-        session()->flash('edit','تم تفعيل المورد بنجاج');
+        session()->flash('successActive','تم تفعيل المورد بنجاج');
         return redirect('suppliers/active');
     }
     public function supplierDisable(Request $request)
@@ -233,7 +233,7 @@ class SuppliersController extends Controller
         $suppliers->update([
             'status' => 'غير مفعل',
         ]);
-        session()->flash('edit','تم تعطيل المورد بنجاج');
+        session()->flash('successNotActive','تم تعطيل المورد بنجاج');
         return redirect('suppliers/notactive');
     }
 }

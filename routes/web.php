@@ -23,13 +23,26 @@ Route::post('/unlocked','App\Http\Controllers\ChatterLock@unlock')->name('unlock
 Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
-    Route::resource('sections', 'App\Http\Controllers\SectionsController');
+
     Route::resource('products', 'App\Http\Controllers\ProductsController');
     Route::resource('storesMaterials','App\Http\Controllers\StoresController');
     Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
-    Route::resource('roles','App\Http\Controllers\RoleController');
-    Route::resource('sectionUsers','App\Http\Controllers\SectionUSersController');
 
+    Route::resource('sections', 'App\Http\Controllers\SectionsController');
+    Route::resource('sectionUsers','App\Http\Controllers\SectionUSersController');
+    //roles Route
+    Route::resource('roles','App\Http\Controllers\RoleController');
+    //end roles route
+    //users Route
+    Route::get('users/active','App\Http\Controllers\UserController@activeUsers');
+    Route::get('users/notactive','App\Http\Controllers\UserController@activeNotUsers');
+    Route::get('users/userdisable/{id}','App\Http\Controllers\UserController@userdisable');
+    Route::get('users/userActive/{id}','App\Http\Controllers\UserController@userActive');
+    Route::get('users/softDelete', 'App\Http\Controllers\UserController@softDelete')->name('softDelete.users');
+    Route::get('users/backSoftDelete/{id}', 'App\Http\Controllers\UserController@backSoftDelete')->name('backsoftDelete.users');
+    Route::get('users/trashUser', 'App\Http\Controllers\UserController@trashedUser');
+    Route::resource('users','App\Http\Controllers\UserController');
+    //end users Route
     //suppliers route
     Route::get('suppliers/active','App\Http\Controllers\SuppliersController@activeSupplier');
     Route::get('suppliers/notactive','App\Http\Controllers\SuppliersController@supplierDisable');
@@ -63,14 +76,7 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::resource('advancePayment','App\Http\Controllers\AdvancePaymentController');
 });
 
-    Route::get('users/active','App\Http\Controllers\UserController@activeUsers');
-    Route::get('users/notactive','App\Http\Controllers\UserController@activeNotUsers');
-    Route::get('users/userdisable/{id}','App\Http\Controllers\UserController@userdisable');
-    Route::get('users/userActive/{id}','App\Http\Controllers\UserController@userActive');
-    Route::get('users/softDelete', 'App\Http\Controllers\UserController@softDelete')->name('softDelete.users');
-    Route::get('users/backSoftDelete/{id}', 'App\Http\Controllers\UserController@backSoftDelete')->name('backsoftDelete.users');
-    Route::get('users/trashUser', 'App\Http\Controllers\UserController@trashedUser');
-    Route::resource('users','App\Http\Controllers\UserController');
+
 
 
 Route::resource('materials','App\Http\Controllers\MaterialsController');

@@ -152,7 +152,7 @@ class CustomersController extends Controller
         $id = $request->customer_id;
 
         $customers= customers::onlyTrashed()->where('id',$id)->forceDelete();
-        session()->flash('success','تم حذف العميل بنجاح');
+        session()->flash('successDestroy','تم حذف العميل بنجاح');
         return redirect('/customers');
 
     }
@@ -160,7 +160,7 @@ class CustomersController extends Controller
     {
         $id = $request->customer_id;
         $customers= customers::find($id)->delete();
-        session()->flash('success','تم حذف العميل بنجاح');
+        session()->flash('successSoft','تم حذف العميل بنجاح');
         return redirect('/customers');
     }
 
@@ -168,7 +168,7 @@ class CustomersController extends Controller
     {
 
         $customers= customers::onlyTrashed()->where('id',$id)->first()->restore();
-        session()->flash('success','تم استرجاع العميل بنجاح');
+        session()->flash('successBackSoft','تم استرجاع العميل بنجاح');
         return redirect('/customers');
     }
     public function export()

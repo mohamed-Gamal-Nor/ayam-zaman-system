@@ -222,7 +222,7 @@ class EmployeesController extends Controller
 
         $id = $request->employee_id;
         $employees= employees::onlyTrashed()->where('id',$id)->forceDelete();
-        session()->flash('success','تم حذف الموظف بنجاح');
+        session()->flash('successDestroy','تم حذف الموظف بنجاح');
         return redirect('/employees');
 
     }
@@ -232,7 +232,7 @@ class EmployeesController extends Controller
         $employees= employees::find($id);
 
         $employees->delete();
-        session()->flash('success','تم حذف الموظف بنجاح');
+        session()->flash('successSoft','تم حذف الموظف بنجاح');
         return redirect('/employees');
     }
 
@@ -240,8 +240,13 @@ class EmployeesController extends Controller
     {
 
         $employees= employees::onlyTrashed()->where('id',$id)->first()->restore();
-        session()->flash('success','تم استرجاع الموظف بنجاح');
+        session()->flash('successBackSoft','تم استرجاع الموظف بنجاح');
         return redirect('/employees');
+    }
+    public function activeEmployee (Request $request)
+    {
+        $employees = employees::where('stauts', "مفعل")->get();
+        return view('employees.active_employee',compact('employees'));
     }
     public function employeeActive(Request $request,$id)
     {
@@ -249,7 +254,7 @@ class EmployeesController extends Controller
         $employees->update([
             'stauts' => 'مفعل',
         ]);
-        session()->flash('success','تم تفعيل الموظف بنجاج');
+        session()->flash('successActive','تم تفعيل الموظف بنجاج');
         return redirect('employees/active');
     }
     public function employeeDisable(Request $request)
@@ -264,7 +269,7 @@ class EmployeesController extends Controller
         $employees->update([
             'stauts' => 'غير مفعل',
         ]);
-        session()->flash('success','تم تعطيل الموظف بنجاج');
+        session()->flash('successNotActive','تم تعطيل الموظف بنجاج');
         return redirect('employees/notactive');
     }
     public function export()

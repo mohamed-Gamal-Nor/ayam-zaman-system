@@ -7,6 +7,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
@@ -155,16 +156,21 @@ class UserController extends Controller
 */
     public function edit($id)
     {
+
         $sections = sectionUSers::select('section_name','id')->get();
         $user = User::find($id);
         if(!empty($user)){
-            $roles = Role::pluck('name','name')->all();
-            $userRole = $user->roles->pluck('name','name')->all();
-
-            return view('user.edit_user',compact('user','roles','userRole','sections'));
+            if(Auth::user()->id == $id){
+                $roles = Role::pluck('name','name')->all();
+                $userRole = $user->roles->pluck('name','name')->all();
+                return view('user.edit_user',compact('user','roles','userRole','sections'));
+            }else{
+                return view('errors.error');
+            }
         }else{
             return view('errors.noData');
         }
+
     }
     /**
 * Update the specified resource in storage.
@@ -310,7 +316,7 @@ class UserController extends Controller
         }
         $user = User::onlyTrashed()->where('id',$request->user_id);
         $user->forceDelete();
-        session()->flash('success','تم حذف المستخدم بنجاح');
+        session()->flash('successDestroy','تم حذف المستخدم بنجاح');
         return redirect('/users');
     }
 
@@ -318,7 +324,7 @@ class UserController extends Controller
     {
         $id = $request->user_id;
         $user= User::find($id)->delete();
-        session()->flash('success','تم حذف المستخدم بنجاح');
+        session()->flash('successSoft','تم حذف المستخدم بنجاح');
         return redirect('/users');
     }
 
@@ -326,7 +332,7 @@ class UserController extends Controller
     {
 
         $suppliers= User::onlyTrashed()->where('id',$id)->first()->restore();
-        session()->flash('success','تم استرجاع المستخدم بنجاح');
+        session()->flash('successBackSoft','تم استرجاع المستخدم بنجاح');
         return redirect('/users');
     }
 
@@ -341,7 +347,7 @@ class UserController extends Controller
         $user->update([
             'status' => 'مفعل',
         ]);
-        session()->flash('edit','تم تفعيل المستخدم بنجاج');
+        session()->flash('successActive','تم تفعيل المستخدم بنجاج');
         return redirect('users/active');
     }
     public function activeNotUsers(Request $request)
@@ -356,7 +362,7 @@ class UserController extends Controller
         $user->update([
             'status' => 'غير مفعل',
         ]);
-        session()->flash('edit','تم تعطيل المستخدم بنجاج');
+        session()->flash('successNotActive','تم تعطيل المستخدم بنجاج');
         return redirect('users/notactive');
     }
 }

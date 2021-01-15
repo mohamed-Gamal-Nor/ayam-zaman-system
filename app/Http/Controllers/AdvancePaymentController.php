@@ -79,6 +79,7 @@ class AdvancePaymentController extends Controller
         $input =$request->all();
         $input['ap_date'] = date("Y-m-d");
         $input['created_by']=Auth::user()->user_fname . " " .Auth::user()->user_lname;
+        $input['status'] = 0;
         advancePayment::create($input);
         session()->flash('Add', 'تم اضافة السلفة بنجاح ');
         return redirect('/advancePayment/create');

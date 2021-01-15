@@ -58,7 +58,7 @@ $this->validate($request, [
 $role = Role::create(['name' => $request->input('name')]);
 $role->syncPermissions($request->input('permission'));
 return redirect()->route('roles.index')
-->with('success','Role created successfully');
+->with('Add','Role created successfully');
 }
 /**
 * Display the specified resource.
@@ -107,7 +107,7 @@ $role->name = $request->input('name');
 $role->save();
 $role->syncPermissions($request->input('permission'));
 return redirect()->route('roles.index')
-->with('success','Role updated successfully');
+->with('edit','Role updated successfully');
 }
 /**
 * Remove the specified resource from storage.
@@ -119,6 +119,6 @@ public function destroy($id)
 {
 DB::table("roles")->where('id',$id)->delete();
 return redirect()->route('roles.index')
-->with('success','Role deleted successfully');
+->with('delete','Role deleted successfully');
 }
 }
