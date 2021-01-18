@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class MaterialsController extends Controller
 {
+
+
+
+    function __construct()
+    {
+
+        $this->middleware('permission:قائمة الخامات', ['only' => ['index']]);
+        $this->middleware('permission:اضافة خامة', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل خامة', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف خامة', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

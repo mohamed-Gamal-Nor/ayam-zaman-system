@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    الاقسام
+    الاقسام - مصنع ايام زمان
 @stop
 @section('css')
 <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -15,6 +15,8 @@
 <link href="{{URL::asset('assets/plugins/multislider/multislider.css')}}" rel="stylesheet">
 <!--- Select2 css -->
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -37,31 +39,35 @@
                         </ul>
                     </div>
                 @endif
-
                 @if (session()->has('Add'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('Add') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم أضافة القسم بنجاح",
+                            type: "success"
+                        });
+                    }
+                </script>
+                @endif
+                @if (session()->has('Edit'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم تعديل القسم بنجاح",
+                            type: "success"
+                        });
+                    }
+                </script>
                 @endif
                 @if (session()->has('delete'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('delete') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-
-                @if (session()->has('Edit'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('Edit') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم حذف القسم بنجاح",
+                            type: "error"
+                        });
+                    }
+                </script>
                 @endif
 				<!-- row -->
 				<div class="row row-sm">
@@ -70,8 +76,9 @@
                         <div class="card mg-b-20">
                             <div class="card-header pb-0">
                                 <div class="d-flex justify-content-between">
+                                    @can('اضافة قسم الموظفين')
                                     <a class="modal-effect btn btn-outline-primary " data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">اضافة قسم</a>
-
+                                    @endcan
                                 </div>
                             </div>
                             <div class="card-body">
@@ -101,14 +108,18 @@
                                                     <td>{{$section->user->count()}}</td>
                                                     <td>{{$section->employees->count()}}</td>
                                                     <td>
+                                                        @can('تعديل قسم الموظفين')
                                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                            data-id="{{ $section->id }}" data-section_name="{{ $section->section_name }}"
                                                            data-description="{{ $section->descriprion}}" data-toggle="modal"
                                                            href="#exampleModal2" title="تعديل"><i class="las la-pen"></i></a>
+                                                        @endcan
+                                                        @can('حذف قسم الموظفين')
                                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                            data-id="{{ $section->id }}" data-section_name="{{ $section->section_name }}"
                                                            data-toggle="modal" href="#modaldemo9" title="حذف"><i
                                                                 class="las la-trash"></i></a>
+                                                        @endcan
                                                     </td>
                                                     <td>{{$section->updated_at}}</td>
                                                 </tr>
@@ -235,7 +246,9 @@
 <script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 <!-- Internal Modal js-->
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 <script>
     $('#exampleModal2').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)

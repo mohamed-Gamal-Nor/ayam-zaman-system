@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 class SectionUSersController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:اقسام الموظفين', ['only' => ['index']]);
+        $this->middleware('permission:اضافة قسم الموظفين', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل قسم الموظفين', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف قسم الموظفين', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -117,5 +126,6 @@ class SectionUSersController extends Controller
         sectionUSers::find($id)->delete();
         session()->flash('delete', 'تم حذف القسم بنجاح ');
         return redirect('/sectionUsers');
+
     }
 }

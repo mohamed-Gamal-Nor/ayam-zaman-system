@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class StoresController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:مخازن خامات', ['only' => ['index']]);
+        $this->middleware('permission:اضافة مخازن خامات', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل مخازن خامات', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف مخازن خامات', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -119,7 +128,7 @@ class StoresController extends Controller
      * @param  \App\Models\stores  $stores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(stores $request)
+    public function destroy(Request $request)
     {
         $id = $request->id;
         stores::find($id)->delete();

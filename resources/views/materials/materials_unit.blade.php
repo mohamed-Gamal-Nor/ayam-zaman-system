@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    الاقسام
+    وحدة الخامات - مصنع ايام زمان
 @stop
 @section('css')
 <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -23,7 +23,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">المخازن</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ اقسام المنتجات</span>
+							<h4 class="content-title mb-0 my-auto">المخازن</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ وحدة الخامات</span>
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
                 <script>
                     window.onload = function() {
                         notif({
-                            msg: " تم أضافة القسم بنجاح",
+                            msg: " تم أضافة الوحدة بنجاح",
                             type: "success"
                         });
                     }
@@ -53,7 +53,7 @@
                 <script>
                     window.onload = function() {
                         notif({
-                            msg: " تم تعديل القسم بنجاح",
+                            msg: " تم تعديل الوحدة بنجاح",
                             type: "success"
                         });
                     }
@@ -63,7 +63,7 @@
                 <script>
                     window.onload = function() {
                         notif({
-                            msg: " تم حذف القسم بنجاح",
+                            msg: " تم حذف الوحدة بنجاح",
                             type: "error"
                         });
                     }
@@ -76,8 +76,8 @@
                         <div class="card mg-b-20">
                             <div class="card-header pb-0">
                                 <div class="d-flex justify-content-between">
-                                    @can('اضافة قسم المنتجات')
-                                    <a class="modal-effect btn btn-outline-primary " data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">اضافة قسم</a>
+                                    @can('اضافة وحدة الخامات')
+                                    <a class="modal-effect btn btn-outline-primary " data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">اضافة وحدة خامات</a>
                                     @endcan
                                 </div>
                             </div>
@@ -87,40 +87,37 @@
                                         <thead>
                                             <tr class="text-center">
                                                 <th class="border-bottom-0">#</th>
-                                                <th class="border-bottom-0">اسم القسم</th>
+                                                <th class="border-bottom-0">اسم الوحدة</th>
                                                 <th class="border-bottom-0">أنشأ بواسطة</th>
-                                                <th class="border-bottom-0">الوصف</th>
-                                                <th class="border-bottom-0">عدد المنتجات</th>
+                                                <th class="border-bottom-0">عدد الخامات</th>
                                                 <th class="border-bottom-0">العمليات</th>
                                                 <th class="border-bottom-0">اخر تعديل</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php $i=0;?>
-                                            @foreach($sections as $section)
+                                            @foreach($MaterialsUnit as $mu)
                                                 <?php $i++?>
                                                 <tr class="text-center">
                                                     <td>{{$i}}</td>
-                                                    <td>{{$section->section_name}}</td>
-                                                    <td>{{$section->created_by}}</td>
-                                                    <td>{{$section->descriprion}}</td>
-                                                    <td>{{$section->product->count()}}</td>
+                                                    <td>{{$mu->unit_name}}</td>
+                                                    <td>{{$mu->created_by}}</td>
+                                                    <td>20</td>
 
                                                     <td>
-                                                        @can('تعديل قسم المنتجات')
+                                                        @can('تعديل وحدة الخامات')
                                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                           data-id="{{ $section->id }}" data-section_name="{{ $section->section_name }}"
-                                                           data-description="{{ $section->descriprion}}" data-toggle="modal"
+                                                           data-id="{{ $mu->id }}" data-unit_name="{{ $mu->unit_name }}" data-toggle="modal"
                                                            href="#exampleModal2" title="تعديل"><i class="las la-pen"></i></a>
                                                         @endcan
-                                                        @can('حذف قسم المنتجات')
+                                                        @can('حذف وحدة الخامات')
                                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                           data-id="{{ $section->id }}" data-section_name="{{ $section->section_name }}"
+                                                           data-id="{{ $mu->id }}" data-unit_name="{{ $mu->unit_name }}"
                                                            data-toggle="modal" href="#modaldemo9" title="حذف"><i
                                                                 class="las la-trash"></i></a>
-                                                        @endcan()
+                                                        @endcan
                                                     </td>
-                                                    <td>{{$section->updated_at}}</td>
+                                                    <td>{{$mu->updated_at}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -135,18 +132,14 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content modal-content-demo">
                                 <div class="modal-header">
-                                    <h6 class="modal-title">اضافة قسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                    <h6 class="modal-title">اضافة وحدة خامة</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <form action="{{route('sections.store')}}" method="POST">
+                                <form action="{{route('materialsUnit.store')}}" method="POST">
                                     {{csrf_field()}}
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label>أسم القسم</label>
-                                            <input type="text" class="form-control" id="section_name" name="section_name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>الوصف</label>
-                                            <textarea class="form-control" id="descriprion" name="descriprion" ></textarea>
+                                            <label>أسم الوحدة</label>
+                                            <input type="text" class="form-control" id="unit_name" name="unit_name" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -163,23 +156,19 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">تعديل القسم</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">تعديل الوحدة</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="sections/update" method="post" autocomplete="off">
-                                        {{ method_field('patch') }}
+                                    <form action="materialsUnit/update" method="post" autocomplete="off">
+                                        {{ method_field('PATCH') }}
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <input type="hidden" name="id" id="id" value="">
-                                            <label for="recipient-name" class="col-form-label">اسم القسم:</label>
-                                            <input class="form-control" name="section_name" id="section_name" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">ملاحظات:</label>
-                                            <textarea class="form-control" id="description" name="descriprion"></textarea>
+                                            <label for="recipient-name" class="col-form-label">اسم الوحدة:</label>
+                                            <input class="form-control" name="unit_name" id="unit_name" type="text">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">تاكيد</button>
@@ -195,15 +184,15 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content modal-content-demo">
                                 <div class="modal-header">
-                                    <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                    <h6 class="modal-title">حذف المخزن</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <form action="sections/destroy" method="post">
+                                <form action="materialsUnit/destroy" method="post">
                                     {{ method_field('delete') }}
                                     {{ csrf_field() }}
                                     <div class="modal-body">
                                         <p>هل انت متاكد من عملية الحذف ؟</p><br>
                                         <input type="hidden" name="id" id="id" value="">
-                                        <input class="form-control" name="section_name" id="section_name" type="text" readonly>
+                                        <input class="form-control" name="unit_name" id="unit_name" type="text" readonly>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
@@ -252,22 +241,20 @@
     $('#exampleModal2').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('id')
-        var section_name = button.data('section_name')
-        var description = button.data('description')
+        var unit_name = button.data('unit_name')
         var modal = $(this)
         modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #section_name').val(section_name);
-        modal.find('.modal-body #description').val(description);
+        modal.find('.modal-body #unit_name').val(unit_name);
     })
 </script>
 <script>
     $('#modaldemo9').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('id')
-        var section_name = button.data('section_name')
+        var unit_name = button.data('unit_name')
         var modal = $(this)
         modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #section_name').val(section_name);
+        modal.find('.modal-body #unit_name').val(unit_name);
     })
 </script>
 @endsection

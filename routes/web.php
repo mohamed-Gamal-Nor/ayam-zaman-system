@@ -23,13 +23,14 @@ Route::post('/unlocked','App\Http\Controllers\ChatterLock@unlock')->name('unlock
 Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
-
-    Route::resource('products', 'App\Http\Controllers\ProductsController');
+    //Materials Route
     Route::resource('storesMaterials','App\Http\Controllers\StoresController');
-    Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
-
+    Route::resource('materialsUnit','App\Http\Controllers\MaterialsUnitController');
+    //end Materials Routes
+    //sections Route
     Route::resource('sections', 'App\Http\Controllers\SectionsController');
     Route::resource('sectionUsers','App\Http\Controllers\SectionUSersController');
+    //end sections Route
     //roles Route
     Route::resource('roles','App\Http\Controllers\RoleController');
     //end roles route
@@ -78,8 +79,11 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
 
 
 
-
 Route::resource('materials','App\Http\Controllers\MaterialsController');
+
+Route::resource('products', 'App\Http\Controllers\ProductsController');
+Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
+
 Route::resource('ClosingSalary','App\Http\Controllers\ClosingSalaryController');
 
 Route::get('/{page}', 'App\Http\Controllers\AdminController@index');

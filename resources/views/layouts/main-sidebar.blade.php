@@ -65,25 +65,47 @@
 						</ul>
                     </li>
                     <li class="side-item side-item-category">الاعدادات</li>
-
+                    @can('المخازن')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-box-open side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المخازن</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
-							<li><a class="slide-item" href="{{ url('/' . $page='storesMaterials') }}">مخازن خامات</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='materials') }}">الخامات</a></li>
+                            @can('مخازن خامات')
+                            <li><a class="slide-item" href="{{ url('/' . $page='storesMaterials') }}">مخازن خامات</a></li>
+                            @endcan
+                            @can('وحدة الخامات')
+                            <li><a class="slide-item" href="{{ url('/' . $page='materialsUnit') }}">وحدة الخامات</a></li>
+                            @endcan
+                            @can('قائمة الخامات')
+                            <li><a class="slide-item" href="{{ url('/' . $page='materials') }}">قائمة الخامات</a></li>
+                            @endcan
+                            @can('اضافة خامة')
+                            <li><a class="slide-item" href="{{ url('/' . $page='materials/create') }}">اضافة خامة</a></li>
+                            @endcan
+                            @can('مخازن منتجات')
                             <li><a class="slide-item" href="{{ url('/' . $page='storesGoods') }}">مخازن منتجات</a></li>
-
-							<li><a class="slide-item" href="{{ url('/' . $page='products') }}">المنتجات</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='products/create') }}">اضافة منتج</a></li>
+                            @endcan
+                            @can('قائمة المنتجات')
+                            <li><a class="slide-item" href="{{ url('/' . $page='products') }}">قائمة المنتجات</a></li>
+                            @endcan
+                            @can('اضافة منتج')
+                            <li><a class="slide-item" href="{{ url('/' . $page='products/create') }}">اضافة منتج</a></li>
+                            @endcan
 						</ul>
                     </li>
+                    @endcan
+                    @can('الاقسام')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="si si-layers side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الاقسام</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
+                            @can('اقسام الموظفين')
                             <li><a class="slide-item" href="{{ url('/' . $page='sectionUsers') }}">أقسام الموظفين</a></li>
+                            @endcan
+                            @can('اقسام المنتجات')
                             <li><a class="slide-item" href="{{ url('/' . $page='sections') }}">اقسام المنتجات</a></li>
+                            @endcan
 						</ul>
                     </li>
+                    @endcan
                     @can('المستخدمين')
                     <li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><i class="fas fa-users side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>

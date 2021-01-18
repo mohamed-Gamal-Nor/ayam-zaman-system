@@ -15,6 +15,8 @@
 <link href="{{URL::asset('assets/plugins/multislider/multislider.css')}}" rel="stylesheet">
 <!--- Select2 css -->
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -37,31 +39,35 @@
                         </ul>
                     </div>
                 @endif
-
                 @if (session()->has('Add'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('Add') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم أضافة المخزن بنجاح",
+                            type: "success"
+                        });
+                    }
+                </script>
+                @endif
+                @if (session()->has('edit'))
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم تعديل المخزن بنجاح",
+                            type: "success"
+                        });
+                    }
+                </script>
                 @endif
                 @if (session()->has('delete'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('delete') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-
-                @if (session()->has('edit'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session()->get('edit') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <script>
+                    window.onload = function() {
+                        notif({
+                            msg: " تم حذف المخزن بنجاح",
+                            type: "error"
+                        });
+                    }
+                </script>
                 @endif
 				<!-- row -->
 				<div class="row row-sm">
@@ -70,8 +76,9 @@
                         <div class="card mg-b-20">
                             <div class="card-header pb-0">
                                 <div class="d-flex justify-content-between">
+                                    @can('اضافة مخازن خامات')
                                     <a class="modal-effect btn btn-outline-primary " data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">اضافة مخزن</a>
-
+                                    @endcan
                                 </div>
                             </div>
                             <div class="card-body">
@@ -102,14 +109,18 @@
                                                     <td>20</td>
 
                                                     <td>
+                                                        @can('تعديل مخازن خامات')
                                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                            data-id="{{ $store->id }}" data-stores_name="{{ $store->stores_name }}" data-stores_addres="{{ $store->stores_addres }}"
                                                            data-description="{{ $store->descriprion}}" data-toggle="modal"
                                                            href="#exampleModal2" title="تعديل"><i class="las la-pen"></i></a>
+                                                        @endcan
+                                                        @can('حذف مخازن خامات')
                                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                            data-id="{{ $store->id }}" data-stores_name="{{ $store->stores_name }}"
                                                            data-toggle="modal" href="#modaldemo9" title="حذف"><i
                                                                 class="las la-trash"></i></a>
+                                                        @endcan
                                                     </td>
                                                     <td>{{$store->updated_at}}</td>
                                                 </tr>
@@ -244,7 +255,9 @@
 <script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 <!-- Internal Modal js-->
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 <script>
     $('#exampleModal2').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
