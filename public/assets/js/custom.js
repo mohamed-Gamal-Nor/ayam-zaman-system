@@ -14,12 +14,22 @@ $(function() {
     // Shows header dropdown while hiding others
     $(".main-header .dropdown > a").on("click", function(e) {
         e.preventDefault();
-        $(this).parent().toggleClass("show");
-        $(this).parent().siblings().removeClass("show");
-        $(this).find(".drop-flag").removeClass("show");
+        $(this)
+            .parent()
+            .toggleClass("show");
+        $(this)
+            .parent()
+            .siblings()
+            .removeClass("show");
+        $(this)
+            .find(".drop-flag")
+            .removeClass("show");
     });
     $(".country-flag1").on("click", function(e) {
-        $(".main-header .dropdown > a").parent().siblings().removeClass("show");
+        $(".main-header .dropdown > a")
+            .parent()
+            .siblings()
+            .removeClass("show");
     });
 
     // ______________Full screen
@@ -65,8 +75,8 @@ $(function() {
             starActiveClass: "is--active",
             starHoverClass: "is--hover",
             starNoHoverClass: "is--no-hover",
-            targetFormElementSelector: ".rating-value",
-        },
+            targetFormElementSelector: ".rating-value"
+        }
     };
     $(".rating-stars").ratingStars(ratingOptions);
 
@@ -139,13 +149,20 @@ $(function() {
     // Showing submenu in navbar while hiding previous open submenu
     $(".main-navbar .with-sub").on("click", function(e) {
         e.preventDefault();
-        $(this).parent().toggleClass("show");
-        $(this).parent().siblings().removeClass("show");
+        $(this)
+            .parent()
+            .toggleClass("show");
+        $(this)
+            .parent()
+            .siblings()
+            .removeClass("show");
     });
     // this will hide dropdown menu from open in mobile
     $(".dropdown-menu .main-header-arrow").on("click", function(e) {
         e.preventDefault();
-        $(this).closest(".dropdown").removeClass("show");
+        $(this)
+            .closest(".dropdown")
+            .removeClass("show");
     });
     // this will show navbar in left for mobile only
     $("#mainNavShow, #azNavbarShow").on("click", function(e) {
@@ -213,8 +230,13 @@ $(function() {
     });
     $(".main-header-menu .with-sub").on("click", function(e) {
         e.preventDefault();
-        $(this).parent().toggleClass("show");
-        $(this).parent().siblings().removeClass("show");
+        $(this)
+            .parent()
+            .toggleClass("show");
+        $(this)
+            .parent()
+            .siblings()
+            .removeClass("show");
     });
     $(".main-header-menu-header .close").on("click", function(e) {
         e.preventDefault();
@@ -227,14 +249,16 @@ $(function() {
             var a = $(this);
             if (a.hasClass("icofont-simple-right")) {
                 a.parents(".card-option").animate({
-                    width: "35px",
+                    width: "35px"
                 });
             } else {
                 a.parents(".card-option").animate({
-                    width: "180px",
+                    width: "180px"
                 });
             }
-            $(this).toggleClass("fe fe-chevron-right").fadeIn("slow");
+            $(this)
+                .toggleClass("fe fe-chevron-right")
+                .fadeIn("slow");
         }
     );
 
@@ -242,25 +266,25 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
     // colored tooltip
     $('[data-toggle="tooltip-primary"]').tooltip({
-        template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>',
+        template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
     });
     $('[data-toggle="tooltip-secondary"]').tooltip({
-        template: '<div class="tooltip tooltip-secondary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>',
+        template: '<div class="tooltip tooltip-secondary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
     });
 
     // __________POPOVER
     $('[data-toggle="popover"]').popover();
     $('[data-popover-color="head-primary"]').popover({
-        template: '<div class="popover popover-head-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        template: '<div class="popover popover-head-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
     });
     $('[data-popover-color="head-secondary"]').popover({
-        template: '<div class="popover popover-head-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        template: '<div class="popover popover-head-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
     });
     $('[data-popover-color="primary"]').popover({
-        template: '<div class="popover popover-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        template: '<div class="popover popover-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
     });
     $('[data-popover-color="secondary"]').popover({
-        template: '<div class="popover popover-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        template: '<div class="popover popover-secondary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
     });
     $(document).on("click", function(e) {
         $('[data-toggle="popover"],[data-original-title]').each(function() {
@@ -271,8 +295,11 @@ $(function() {
                 $(".popover").has(e.target).length === 0
             ) {
                 (
-                    ($(this).popover("hide").data("bs.popover") || {})
-                    .inState || {}
+                    (
+                        $(this)
+                        .popover("hide")
+                        .data("bs.popover") || {}
+                    ).inState || {}
                 ).click = false; // fix for BS 3.3.6
             }
         });
@@ -287,9 +314,19 @@ $(function() {
             var pageUrl = window.location.href.split(/[?#]/)[0];
             if (this.href == pageUrl) {
                 $(this).addClass("active");
-                $(this).parent().addClass("active"); // add active to li of the current link
-                $(this).parent().parent().prev().addClass("active"); // add active class to an anchor
-                $(this).parent().parent().prev().click(); // click the item to make it drop
+                $(this)
+                    .parent()
+                    .addClass("active"); // add active to li of the current link
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .addClass("active"); // add active class to an anchor
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .click(); // click the item to make it drop
             }
         });
     });
@@ -300,16 +337,28 @@ $(function() {
             var pageUrl = window.location.href.split(/[?#]/)[0];
             if (this.href == pageUrl) {
                 $(this).addClass("active");
-                $(this).parent().addClass("active"); // add active to li of the current link
-                $(this).parent().parent().prev().addClass("active"); // add active class to an anchor
-                $(this).parent().parent().prev().click(); // click the item to make it drop
+                $(this)
+                    .parent()
+                    .addClass("active"); // add active to li of the current link
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .addClass("active"); // add active class to an anchor
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .click(); // click the item to make it drop
             }
         });
         $(".horizontal-megamenu li a").each(function() {
             var pageUrl = window.location.href.split(/[?#]/)[0];
             if (this.href == pageUrl) {
                 $(this).addClass("active");
-                $(this).parent().addClass("active"); // add active to li of the current link
+                $(this)
+                    .parent()
+                    .addClass("active"); // add active to li of the current link
                 $(this)
                     .parent()
                     .parent()
@@ -320,14 +369,20 @@ $(function() {
                     .parent()
                     .prev()
                     .addClass("active"); // add active class to an anchor
-                $(this).parent().parent().prev().click(); // click the item to make it drop
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .click(); // click the item to make it drop
             }
         });
         $(".horizontalMenu-list .sub-menu .sub-menu li a").each(function() {
             var pageUrl = window.location.href.split(/[?#]/)[0];
             if (this.href == pageUrl) {
                 $(this).addClass("active");
-                $(this).parent().addClass("active"); // add active to li of the current link
+                $(this)
+                    .parent()
+                    .addClass("active"); // add active to li of the current link
                 $(this)
                     .parent()
                     .parent()
@@ -335,7 +390,11 @@ $(function() {
                     .parent()
                     .prev()
                     .addClass("active"); // add active class to an anchor
-                $(this).parent().parent().prev().click(); // click the item to make it drop
+                $(this)
+                    .parent()
+                    .parent()
+                    .prev()
+                    .click(); // click the item to make it drop
             }
         });
     });
@@ -350,7 +409,7 @@ $(function() {
     });
     $("#back-to-top").on("click", function(e) {
         $("html, body").animate({
-                scrollTop: 0,
+                scrollTop: 0
             },
             600
         );
@@ -429,7 +488,4 @@ $(function() {
 
     // $('body').addClass(' body-style1'); //
     /* start button dark mode */
-    $("#darkmode").on("click", function() {
-        $("body").addClass("dark-theme");
-    });
 });

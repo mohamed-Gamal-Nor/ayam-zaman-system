@@ -27,7 +27,8 @@ $user = User::create([
 'password' => bcrypt('123456'),
 'roles_name'=> ['owner'],
 "status" => 'مفعل',
-"section_id"=>'1'
+"section_id"=>'1',
+"theme_mode"=>'0'
 ]);
 $role = Role::create(['name' => 'owner']);
 $permissions = Permission::pluck('id','id')->all();

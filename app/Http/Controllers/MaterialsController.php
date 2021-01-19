@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\materials;
 use Illuminate\Http\Request;
-
+use App\Models\materialsUnit;
+use Illuminate\Support\Facades\Auth;
 class MaterialsController extends Controller
 {
 
@@ -25,8 +26,9 @@ class MaterialsController extends Controller
      */
     public function index()
     {
+        $MaterialsUnit = materialsUnit::all();
         $materials = materials::all();
-        return view("materials.index",compact('materials'));
+        return view("materials.index",compact('materials','MaterialsUnit'));
     }
 
     /**
@@ -47,7 +49,23 @@ class MaterialsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'materials_name' => 'required|unique:materials|max:255',
+            'unit_id' => 'required|integer|max:255',
+        ],[
+
+            'materials_name.required' =>'يرجي ادخال اسم الخامه',
+            'materials_name.unique' =>'اسم الخامه مسجل مسبقا',
+            'unit_id.required' =>'يرجي اختيار الوحدة',
+        ]);
+
+        materials::create([
+            'materials_name' => $request->materials_name,
+            'unit_id' => $request->unit_id,
+            'created_by' => (Auth::user()->user_fname . " " .  Auth::user()->user_lname),
+        ]);
+        session()->flash('Add', 'تم اضافة المخزن بنجاح ');
+        return redirect('/materials');
     }
 
     /**
@@ -79,9 +97,26 @@ class MaterialsController extends Controller
      * @param  \App\Models\materials  $materials
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, materials $materials)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+        $validatedData = $request->validate([
+            'materials_name' => 'required|unique:materials,materials_name,'.$id.'|max:255',
+            'unit_id' => 'required|integer|max:255',
+        ],[
+
+            'materials_name.required' =>'يرجي ادخال اسم الخامه',
+            'materials_name.unique' =>'اسم الخامه مسجل مسبقا',
+            'unit_id.required' =>'يرجي اختيار الوحدة',
+        ]);
+        $materials = materials::find($id);
+        $materials->update([
+            'materials_name' => $request->materials_name,
+            'unit_id' => $request->unit_id,
+        ]);
+
+        session()->flash('edit','تم تعديل المخزن بنجاج');
+        return redirect('/materials');
     }
 
     /**
@@ -90,8 +125,11 @@ class MaterialsController extends Controller
      * @param  \App\Models\materials  $materials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(materials $materials)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        materials::find($id)->delete();
+        session()->flash('delete','تم حذف المخزن بنجاح');
+        return redirect('/materials');
     }
 }

@@ -41,6 +41,7 @@ class CreateUsersTable extends Migration
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')->references('id')->on('section_u_sers')->onDelete('cascade');
             $table->softDeletes();
+            $table->tinyInteger("theme_mode");
             $table->rememberToken();
             $table->timestamps();
         });

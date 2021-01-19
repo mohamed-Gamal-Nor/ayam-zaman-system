@@ -78,9 +78,6 @@
                             @can('قائمة الخامات')
                             <li><a class="slide-item" href="{{ url('/' . $page='materials') }}">قائمة الخامات</a></li>
                             @endcan
-                            @can('اضافة خامة')
-                            <li><a class="slide-item" href="{{ url('/' . $page='materials/create') }}">اضافة خامة</a></li>
-                            @endcan
                             @can('مخازن منتجات')
                             <li><a class="slide-item" href="{{ url('/' . $page='storesGoods') }}">مخازن منتجات</a></li>
                             @endcan
@@ -186,7 +183,27 @@
 						</ul>
                     </li>
                     @endcan
+
                     <li class="side-item side-item-category">خروج</li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="#" onclick="event.preventDefault();document.getElementById('theme-form').submit();">
+                            @if(Auth::user()->theme_mode == 1)
+                                <i class="fas fa-sun side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الوضع الفاتح</span></a>
+                            @elseif(Auth::user()->theme_mode == 0)
+                                <i class="fas fa-moon side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الوضع الداكن</span></a>
+                            @endif
+
+                        <form id="theme-form" action="{{'users/theme/'.auth::user()->id}}" method="POST" style="display: none">
+                            @method('GET')
+                            @csrf
+                            @if(Auth::user()->theme_mode == 1)
+                            <input type="text" name="theme_mode" value="0">
+                            @elseif(Auth::user()->theme_mode == 0)
+                            <input type="text" name="theme_mode" value="1">
+                            @endif
+
+                        </form>
+					</li>
 					<li class="slide">
                         <a class="side-menu__item" href="{{ route('locked')}}"><i class="fas fa-lock side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">شاشة القفل</span></a>
                     </li>

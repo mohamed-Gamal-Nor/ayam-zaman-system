@@ -232,7 +232,23 @@
 									</div>
 									<a class="dropdown-item" href="{{route('users.show',auth::user()->id)}}"><i class="bx bx-user-circle"></i>الملف الشخصي</a>
 									<a class="dropdown-item" href="{{route('users.edit',auth::user()->id)}}"><i class="bx bx-cog"></i>تعديل الملف  الشخصي</a>
-                                    <a class="dropdown-item" id="darkmode"><i class="bx bx-slider-alt"></i>الوضع الداكن</a>
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('theme-form').submit();"><i class="bx bx-slider-alt"></i>
+                                        @if(Auth::user()->theme_mode == 1)
+                                            الوضع الفاتح
+                                        @elseif(Auth::user()->theme_mode == 0)
+                                            الوضع الداكن
+                                        @endif
+                                    </a>
+                                    <form id="theme-form" action="{{'users/theme/'.auth::user()->id}}" method="POST" style="display: none">
+                                        @method('GET')
+                                        @csrf
+                                        @if(Auth::user()->theme_mode == 1)
+                                        <input type="text" name="theme_mode" value="0">
+                                        @elseif(Auth::user()->theme_mode == 0)
+                                        <input type="text" name="theme_mode" value="1">
+                                        @endif
+
+                                    </form>
                                     <a class="dropdown-item" href="{{ route('locked') }}"><i class="fas fa-lock"></i>شاشة القفل</a>
 									<a class="dropdown-item" href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="bx bx-log-out"></i>تسجيل خروج</a>
                                     <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none">

@@ -102,7 +102,7 @@
                                                     <td>{{$i}}</td>
                                                     <td>{{$mu->unit_name}}</td>
                                                     <td>{{$mu->created_by}}</td>
-                                                    <td>20</td>
+                                                    <td>{{$mu->materials->count()}}</td>
 
                                                     <td>
                                                         @can('تعديل وحدة الخامات')

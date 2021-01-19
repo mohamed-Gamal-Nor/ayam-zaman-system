@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::get('users/softDelete', 'App\Http\Controllers\UserController@softDelete')->name('softDelete.users');
     Route::get('users/backSoftDelete/{id}', 'App\Http\Controllers\UserController@backSoftDelete')->name('backsoftDelete.users');
     Route::get('users/trashUser', 'App\Http\Controllers\UserController@trashedUser');
+    Route::get('users/theme/{id}', 'App\Http\Controllers\UserController@userTheme');
     Route::resource('users','App\Http\Controllers\UserController');
     //end users Route
     //suppliers route

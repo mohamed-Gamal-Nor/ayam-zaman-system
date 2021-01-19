@@ -365,4 +365,13 @@ class UserController extends Controller
         session()->flash('successNotActive','تم تعطيل المستخدم بنجاج');
         return redirect('users/notactive');
     }
+    public function userTheme(Request $request,$id)
+    {
+        $user = User::find($id);
+        $user->update([
+            'theme_mode'=> $request->theme_mode
+        ]);
+        session()->flash('theme', 'تم تعديل المستخدم بنجاح ');
+        return redirect()->back();
+    }
 }

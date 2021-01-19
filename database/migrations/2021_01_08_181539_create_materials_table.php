@@ -15,8 +15,9 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('materials_name');
-            $table->string('materials_unit');
+            $table->string('materials_name')->require();
+            $table->unsignedBigInteger('unit_id');
+            $table->foreign('unit_id')->references('id')->on('materials_units')->onDelete('cascade');
             $table->string('created_by');
             $table->softDeletes();
             $table->timestamps();
