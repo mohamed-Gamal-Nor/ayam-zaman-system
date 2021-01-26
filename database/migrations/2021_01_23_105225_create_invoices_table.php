@@ -15,20 +15,15 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('invoice_number');
             $table->date('invoice_Date');
-            $table->date('due_Date');
-            $table->string('peoduct');
-            $table->string('section');
+            $table->integer('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->string('discount');
             $table->string('rate_vat');
             $table->decimal('value_vat',8,3);
             $table->decimal('total',8,3);
-            $table->string('status',50);
-            $table->integer('value_status');
             $table->text('note')->nullable();
-            $table->string('user');
-            $table->softDeletes();
+            $table->string('created_by');
             $table->timestamps();
         });
     }

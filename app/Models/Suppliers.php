@@ -12,4 +12,7 @@ class Suppliers extends Model
     use SoftDeletes;
     protected $guarded=[];
     protected $dates=['deleted_at'];
+    public function invoices(){
+        return $this->hasMany('App\Models\invoices','supplier_id');
+    }
 }

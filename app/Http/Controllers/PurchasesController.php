@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\invoices;
+use App\Models\purchases;
+use App\Models\Suppliers;
+use App\Models\materials;
+use App\Models\materialsUnit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class InvoicesController extends Controller
+class PurchasesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +18,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices = invoices::all();
-        $invoicesCount = $invoices->count();
-        return view("invoices.invoices",compact("invoices","invoicesCount"));
+        return view("purchases.index");
     }
 
     /**
@@ -26,7 +28,10 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        //
+        $suppliers =Suppliers::where('status', "مفعل")->get();
+        $materials = materials::all();
+        $dateDay =  date('Y/m/d');
+        return view("purchases.create",compact('suppliers','materials','dateDay'));
     }
 
     /**
@@ -43,10 +48,10 @@ class InvoicesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\invoices  $invoices
+     * @param  \App\Models\purchases  $purchases
      * @return \Illuminate\Http\Response
      */
-    public function show(invoices $invoices)
+    public function show(purchases $purchases)
     {
         //
     }
@@ -54,10 +59,10 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\invoices  $invoices
+     * @param  \App\Models\purchases  $purchases
      * @return \Illuminate\Http\Response
      */
-    public function edit(invoices $invoices)
+    public function edit(purchases $purchases)
     {
         //
     }
@@ -66,10 +71,10 @@ class InvoicesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\invoices  $invoices
+     * @param  \App\Models\purchases  $purchases
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, invoices $invoices)
+    public function update(Request $request, purchases $purchases)
     {
         //
     }
@@ -77,11 +82,16 @@ class InvoicesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\invoices  $invoices
+     * @param  \App\Models\purchases  $purchases
      * @return \Illuminate\Http\Response
      */
-    public function destroy(invoices $invoices)
+    public function destroy(purchases $purchases)
     {
         //
+    }
+    public function getSupplierData($id)
+    {
+        $suppliers =Suppliers::where('id', $id)->get();
+        return json_encode($suppliers);
     }
 }
