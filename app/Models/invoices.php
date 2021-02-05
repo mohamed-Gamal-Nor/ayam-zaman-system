@@ -10,7 +10,10 @@ class invoices extends Model
     use HasFactory;
     protected $guarded = [];
     public function supplier(){
-        return $this->belongsTo('App\Models\materialsUnit');
+        return $this->belongsTo('App\Models\Suppliers');
+    }
+    public function store(){
+        return $this->belongsTo('App\Models\stores');
     }
     public function purches(){
         return $this->hasMany('App\Models\purchases','invoice_id');

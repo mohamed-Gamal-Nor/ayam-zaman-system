@@ -21,9 +21,11 @@ class CreatePurchasesTable extends Migration
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->integer("price");
-            $table->integer("Quantity");
-            $table->integer("total");
+            $table->integer('store_id')->unsigned();
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+            $table->double("price");
+            $table->double("Quantity");
+            $table->double("matarial_total");
             $table->date("purche_data");
             $table->timestamps();
         });

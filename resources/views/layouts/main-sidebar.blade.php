@@ -37,7 +37,7 @@
 						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg><span class="side-menu__label">مشتريات الموردين</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('/' . $page='invoices') }}">قائمة الفواتير</a></li>
-							<li><a class="slide-item" href="{{ url('/' . $page='purchases/create') }}">أضافة فاتورة مشتريات</a></li>
+							<li><a class="slide-item" href="{{ url('/' . $page='invoices/create') }}">أضافة فاتورة مشتريات</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">ارتجاع مشتريات</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">كشف حساب مورد</a></li>
                             <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">متوسط اسعار خامات</a></li>
@@ -188,14 +188,14 @@
 
                     <li class="side-item side-item-category">خروج</li>
                     <li class="slide">
-                        <a class="side-menu__item" href="#" onclick="event.preventDefault();document.getElementById('theme-form').submit();">
+                        <a class="side-menu__item" href="#" onclick="event.preventDefault();document.getElementById('theme-form1').submit();">
                             @if(Auth::user()->theme_mode == 1)
                                 <i class="fas fa-sun side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الوضع الفاتح</span></a>
                             @elseif(Auth::user()->theme_mode == 0)
                                 <i class="fas fa-moon side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">الوضع الداكن</span></a>
                             @endif
 
-                        <form id="theme-form" action="{{'users/theme/'.auth::user()->id}}" method="POST" style="display: none">
+                        <form id="theme-form1" action="{{'/users/theme/'.auth::user()->id}}" method="POST" style="display: none">
                             @method('GET')
                             @csrf
                             @if(Auth::user()->theme_mode == 1)
@@ -210,8 +210,8 @@
                         <a class="side-menu__item" href="{{ route('locked')}}"><i class="fas fa-lock side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">شاشة القفل</span></a>
                     </li>
                     <li class="slide">
-                        <a class="side-menu__item" href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" ><i class="bx bx-log-out side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">تسجيل خروج</span></a>
-                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none">
+                        <a class="side-menu__item" href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form1').submit();" ><i class="bx bx-log-out side-menu__icon text-center" style="height: 35px; font-size:18px"></i><span class="side-menu__label">تسجيل خروج</span></a>
+                        <form id="logout-form1" action="{{route('logout')}}" method="POST" style="display: none">
                             @csrf
                         </form>
 					</li>

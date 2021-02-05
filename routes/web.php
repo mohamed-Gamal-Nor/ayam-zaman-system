@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::resource('advancePayment','App\Http\Controllers\AdvancePaymentController');
 });
 
-Route::get('/supplier/{id}', 'App\Http\Controllers\PurchasesController@getSupplierData');
+Route::get('/supplier/{id}', 'App\Http\Controllers\InvoicesController@getSupplierData');
 Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
 Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
 

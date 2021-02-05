@@ -18,10 +18,14 @@ class CreateInvoicesTable extends Migration
             $table->date('invoice_Date');
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->string('discount');
-            $table->string('rate_vat');
-            $table->decimal('value_vat',8,3);
-            $table->decimal('total',8,3);
+            $table->integer('store_id')->unsigned();
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+            $table->double('sub_total');
+            $table->double('discount')->nullable();
+            $table->double('sub_total_disc');
+            $table->decimal('rate_vat')->nullable();
+            $table->double('value_vat',8,3)->nullable();
+            $table->double('total',8,3);
             $table->text('note')->nullable();
             $table->string('created_by');
             $table->timestamps();

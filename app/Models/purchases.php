@@ -18,4 +18,7 @@ class purchases extends Model
     public function material(){
         return $this->belongsTo('App\Models\materials');
     }
+    public function store(){
+        return $this->belongsTo('App\Models\stores');
+    }
 }

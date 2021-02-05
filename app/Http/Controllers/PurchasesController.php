@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\purchases;
-use App\Models\Suppliers;
-use App\Models\materials;
-use App\Models\materialsUnit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class PurchasesController extends Controller
 {
     /**
@@ -28,10 +25,7 @@ class PurchasesController extends Controller
      */
     public function create()
     {
-        $suppliers =Suppliers::where('status', "مفعل")->get();
-        $materials = materials::all();
-        $dateDay =  date('Y/m/d');
-        return view("purchases.create",compact('suppliers','materials','dateDay'));
+
     }
 
     /**
@@ -42,7 +36,7 @@ class PurchasesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -89,9 +83,5 @@ class PurchasesController extends Controller
     {
         //
     }
-    public function getSupplierData($id)
-    {
-        $suppliers =Suppliers::where('id', $id)->get();
-        return json_encode($suppliers);
-    }
+
 }

@@ -239,7 +239,7 @@
                                             الوضع الداكن
                                         @endif
                                     </a>
-                                    <form id="theme-form" action="{{'users/theme/'.auth::user()->id}}" method="POST" style="display: none">
+                                    <form id="theme-form" action="{{'/users/theme/'.auth::user()->id}}" method="POST" style="display: none">
                                         @method('GET')
                                         @csrf
                                         @if(Auth::user()->theme_mode == 1)
