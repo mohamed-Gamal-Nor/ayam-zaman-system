@@ -21,22 +21,25 @@
 @endsection
 @section('content')
                 @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show">
+                <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
+                    <div class="card-header text-danger font-weight-bold">
+                        <i class="far fa-times-circle"></i> رسالة خطأ
+                        <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="card-body text-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
+                </div>
                 @endif
                 @if (session()->has('Edit'))
                     <script>
                         window.onload = function() {
                             notif({
-                                msg: " تم أنشاء الفاتورة بنجاح",
+                                msg: " تم تعديل الفاتورة بنجاح",
                                 type: "success"
                             });
                         }
@@ -53,7 +56,7 @@
                                 <p class="mg-b-20">فاتورة رقم : {{ $invoice->id }}</p>
                                 <p class="mg-b-20">بيانات المورد</p>
 								<form action="{{ route("invoices.update",$invoice->id) }}" id="selectForm" name="matarial" autocomplete="off" method="POST">
-                                    @method('post')
+                                    @method('PUT')
                                     @csrf
                                     <div class="row row-sm mg-b-10">
                                         <div class="col-lg-3">
@@ -175,6 +178,7 @@
                                                         <td>
                                                             <div class="form-group mg-b-0 ">
                                                                 <input class="form-control matarial_total" name="matarial_total[]" value="{{ $item->matarial_total}}" type="text" placeholder=" 0.0" readonly="readonly">
+                                                                <input class="form-control" name="id[]" value="{{ $item->id}}" type="text" readonly="readonly" hidden>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -184,37 +188,37 @@
                                                 <tr>
                                                     <td colspan="4" class="text-left">المجموع</td>
                                                     <td>
-                                                        <input class="form-control sub_total" name="sub_total" required type="text" placeholder=" 0.0" readonly="readonly" value="{{ number_format($invoice->sub_total,2) }}">
+                                                        <input class="form-control sub_total" name="sub_total" required type="text" placeholder=" 0.0" readonly="readonly" value="{{ $invoice->sub_total }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-left">خصم</td>
                                                     <td>
-                                                        <input class="form-control discount" name="discount"  type="text" placeholder=" 0.0" value="{{ number_format($invoice->discount,2) }}">
+                                                        <input class="form-control discount" name="discount"  type="text" placeholder=" 0.0" value="{{ $invoice->discount }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-left">المجموع بعد الخصم</td>
                                                     <td>
-                                                        <input class="form-control sub_total_disc" name="sub_total_disc" required type="text" placeholder=" 0.0" readonly="readonly" value="{{ number_format($invoice->sub_total_disc,2) }}">
+                                                        <input class="form-control sub_total_disc" name="sub_total_disc" required type="text" placeholder=" 0.0" readonly="readonly" value="{{ $invoice->sub_total_disc}}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-left">نسبة الضريبة</td>
                                                     <td>
-                                                        <input class="form-control rate_vat" name="rate_vat" type="text" placeholder=" 0.0" value="{{ number_format($invoice->rate_vat,2) }}">
+                                                        <input class="form-control rate_vat" name="rate_vat" type="text" placeholder=" 0.0" value="{{ $invoice->rate_vat}}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-left">قيمة الضريبة</td>
                                                     <td>
-                                                        <input class="form-control value_vat" name="value_vat"  type="text" placeholder=" 0.0" readonly="readonly" value="{{ number_format($invoice->value_vat,2) }}">
+                                                        <input class="form-control value_vat" name="value_vat"  type="text" placeholder=" 0.0" readonly="readonly" value="{{ $invoice->value_vat }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-left">أجمالي الفاتورة</td>
                                                     <td>
-                                                        <input class="form-control total"  name="total" required type="text" placeholder=" 0.0" readonly="readonly" value="{{ number_format($invoice->total,2) }}">
+                                                        <input class="form-control total"  name="total" required type="text" placeholder=" 0.0" readonly="readonly" value="{{$invoice->total }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -227,8 +231,9 @@
                                         </table>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-main-primary pd-x-20 mg-t-10" type="submit">حفظ</button>
-                                        <button class="btn btn-danger pd-x-20 mg-t-10">الغاء</button>
+                                        <button class="btn btn-main-primary pd-x-20 mg-t-10" type="submit">تحديث البيانات</button>
+                                        <a class="btn btn-danger pd-x-20 mg-t-10" href="{{route("invoices.index")}}">الغاء</a>
+                                        <a class="btn btn-success pd-x-20 mg-t-10" href="{{route("invoices.show",$invoice->id)}}">عرض الفاتورة</a>
                                     </div>
 								</form>
                             </div>
@@ -352,7 +357,7 @@
             '<td scope="row"><div class="form-group mg-b-0"><select class="form-control select2" name="material_id[]" required=""><option label="أختار الخامة"></option>@foreach ($materials as $material)<option value="{{$material->id}}">{{$material->materials_name}} - > {{$material->unit->unit_name}}</option>@endforeach</select><div id="slErrorContainer"></div></div></td>'+
             '<td><div class="form-group mg-b-0 "><input class="form-control price" name="price[]" value="" type="text" placeholder="0.0 " required min="0"></div></td>'+
             '<td><div class="form-group mg-b-0 "><input class="form-control Quantity" name="Quantity[]" value="" type="text" placeholder=" 0.0" required min="0"></div></td>'+
-            '<td><div class="form-group mg-b-0 "><input class="form-control matarial_total" name="matarial_total[]" value="" type="text" placeholder=" 0.0" readonly="readonly"></div></td>'+
+            '<td><div class="form-group mg-b-0 "><input class="form-control matarial_total" name="matarial_total[]" value="" type="text" placeholder=" 0.0" readonly="readonly"><input class="form-control" name="id[]" type="text" readonly="readonly" hidden></div></td>'+
             '</tr>';
             $("tbody").append(tr);
         }

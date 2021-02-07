@@ -21,15 +21,18 @@
 @endsection
 @section('content')
                 @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
+                        <div class="card-header text-danger font-weight-bold">
+                            <i class="far fa-times-circle"></i> رسالة خطأ
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="card-body text-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 @endif
                 @if (session()->has('Add'))
@@ -70,7 +73,7 @@
 										</div>
 										<div class="col-lg-3">
                                             <label class="form-label">اختار اسم المورد: <span class="tx-danger">*</span></label>
-											<select class="form-control select2" name="supplier_id" data-parsley-class-handler="#slWrapper" data-parsley-errors-container="#slErrorContainer" data-placeholder="اختار المورد" required="">
+											<select class="form-control select2" name="supplier_id" data-parsley-class-handler="#slWrapper" data-parsley-errors-container="#slErrorContainer" data-placeholder="اختار المورد" required>
 												<option label="اختار المورد">
 												</option>
 												@foreach ($suppliers as $supplier)
@@ -81,7 +84,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <label class="form-label">اختار المخزن اللي اتخزن فيه: <span class="tx-danger">*</span></label>
-											<select class="form-control select2" name="store_id" data-placeholder="اختار المورد" required="">
+											<select class="form-control select2" name="store_id" data-placeholder="اختار المورد" required>
 												<option label="اختار المورد">
 												</option>
 												@foreach ($stores as $store)
@@ -137,13 +140,12 @@
                                                     <td style="width: 2%"  class="text-center"><a href="#" class="btn btn-sm btn-danger remove">x</a></td>
                                                     <td scope="row">
                                                         <div class="form-group mg-b-0">
-                                                            <select class="form-control select2" name="material_id[]" required="">
+                                                            <select class="form-control select2" name="material_id[]" required>
                                                                 <option label="أختار الخامة">
                                                                 </option>
                                                                 @foreach ($materials as $material)
                                                                     <option value="{{$material->id}}">{{$material->materials_name}} - > {{$material->unit->unit_name}}</option>
                                                                 @endforeach
-
                                                             </select>
                                                             <div id="slErrorContainer"></div>
                                                         </div>
@@ -160,7 +162,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="form-group mg-b-0 ">
-                                                            <input class="form-control matarial_total" name="matarial_total[]" value="" type="text" placeholder=" 0.0" readonly="readonly">
+                                                            <input class="form-control matarial_total" name="matarial_total[]" value="" type="text" placeholder=" 0.0" required readonly="readonly">
                                                         </div>
                                                     </td>
                                                 </tr>

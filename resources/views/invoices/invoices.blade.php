@@ -14,6 +14,12 @@
 <link href="{{URL::asset('assets/plugins/inputtags/inputtags.css')}}" rel="stylesheet">
 <!--- Custom-scroll -->
 <link href="{{URL::asset('assets/plugins/custom-scroll/jquery.mCustomScrollbar.css')}}" rel="stylesheet">
+<!---Internal Owl Carousel css-->
+<link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
+<!---Internal  Multislider css-->
+<link href="{{URL::asset('assets/plugins/multislider/multislider.css')}}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -33,6 +39,16 @@
 				<!-- breadcrumb -->
 @endsection
 @section('content')
+                @if (session()->has('delete'))
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " تم حذف الفاتورة بنجاح",
+                                type: "success"
+                            });
+                        }
+                    </script>
+                @endif
 				<!-- row -->
 				<div class="row row-sm">
                 <!--div-->
@@ -58,7 +74,7 @@
                                                 <div class="table-responsive">
                                                     <table id="example2" class="table key-buttons text-md-nowrap" data-page-length='50'>
                                                         <thead>
-                                                            <tr>
+                                                            <tr class="text-center">
                                                                 <th class="border-bottom-0">#</th>
                                                                 <th class="border-bottom-0">رقم الفاتورة</th>
                                                                 <th class="border-bottom-0">تاريخ الفاتورة</th>
@@ -87,8 +103,8 @@
                                                                             class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                             type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                                         <div class="dropdown-menu tx-13">
-                                                                            <a class="dropdown-item" title="تعديل"  ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
-                                                                            <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                            <a class="dropdown-item" title="تعديل" href="{{route("invoices.edit",$invoice->id)}}" ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                            <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" ><i class="text-warning fas fa-print"></i>&nbsp;&nbsp;طباعة</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" ><i class="text-success far fa-file-excel"></i>&nbsp;&nbsp;تقرير</a>
@@ -127,7 +143,7 @@
                                                                 <td>{{number_format($invoice->sub_total,2)}}</td>
                                                                 <td>{{number_format($invoice->discount,2)}}</td>
                                                                 <td>{{number_format($invoice->sub_total_disc,2)}}</td>
-                                                                <td>{{number_format($invoice->rate_vat,4)}}</td>
+                                                                <td>%{{number_format($invoice->rate_vat,4)*100}}</td>
                                                                 <td>{{number_format($invoice->value_vat,3)}}</td>
                                                                 <td>{{number_format($invoice->total,2)}}</td>
                                                                 <td>
@@ -136,8 +152,8 @@
                                                                             class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                             type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                                         <div class="dropdown-menu tx-13">
-                                                                            <a class="dropdown-item" title="تعديل"  ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
-                                                                            <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" ><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                            <a class="dropdown-item" title="تعديل"  href="{{route("invoices.edit",$invoice->id)}}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                            <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" ><i class="text-warning fas fa-print"></i>&nbsp;&nbsp;طباعة</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" ><i class="text-success far fa-file-excel"></i>&nbsp;&nbsp;تقرير</a>
@@ -151,6 +167,35 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <!-- Modal effects -->
+                                <div class="modal" id="modaldemo8">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content modal-content-demo">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title">حذف فاتورة</h6><button aria-label="Close" class="close"
+                                                    data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <form action="{{ route('invoices.destroy','test') }}" method="post">
+                                                {{ method_field('delete') }}
+                                                {{ csrf_field() }}
+                                                <div class="modal-body">
+                                                    <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                                                    <input type="hidden" name="id" id="id" value="">
+                                                    <label>فاتورة رقم</label>
+                                                    <input class="form-control mg-b-5" name="" id="id_invoice" type="text" readonly>
+                                                    <label>اسم المورد</label>
+                                                    <input class="form-control  mg-b-5" name="" id="supplier" type="text" readonly>
+                                                    <label>قيمة الفاتورة</label>
+                                                    <input class="form-control mg-b-5" name="" id="total" type="text" readonly>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                                                    <button type="submit" class="btn btn-danger">تاكيد</button>
+                                                </div>
+                                        </div>
+                                        </form>
                                     </div>
                                 </div>
 						</div>
@@ -184,4 +229,26 @@
 <!--- Tabs JS-->
 <script src="{{URL::asset('assets/plugins/tabs/jquery.multipurpose_tabcontent.js')}}"></script>
 <script src="{{URL::asset('assets/js/tabs.js')}}"></script>
+<!--Internal  Datepicker js -->
+<script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+<!-- Internal Select2 js-->
+<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+<!-- Internal Modal js-->
+<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+<script>
+    $('#modaldemo8').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var supplier = button.data('supplier')
+        var total = button.data('total')
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #id_invoice').val(id);
+        modal.find('.modal-body #supplier').val(supplier);
+        modal.find('.modal-body #total').val(total);
+    })
+</script>
 @endsection
