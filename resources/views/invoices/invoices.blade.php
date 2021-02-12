@@ -56,7 +56,8 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
-                                    <a class="mx-1 modal-effect btn btn-outline-primary" href="{{ url('/' . $page='invoices/create') }}">اضافة فاتورة مشتريات</a>
+                                    <a class="mx-1 btn btn-outline-primary" href="{{ route('invoices.create') }}">اضافة فاتورة مشتريات</a>
+                                    <a class="mx-1  btn btn-outline-primary" href="{{ url('/'.$page ='invoices/invoicesExport') }}">تصدير أكسيل للفواتير</a>
 							    </div>
                                 <div class="panel panel-primary tabs-style-2 mg-t-10 mg-b-5">
                                     <div class=" tab-menu-heading">
@@ -106,8 +107,7 @@
                                                                             <a class="dropdown-item" title="تعديل" href="{{route("invoices.edit",$invoice->id)}}" ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
                                                                             <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
-                                                                            <a class="dropdown-item"  title="عرض الملف" ><i class="text-warning fas fa-print"></i>&nbsp;&nbsp;طباعة</a>
-                                                                            <a class="dropdown-item"  title="عرض الملف" ><i class="text-success far fa-file-excel"></i>&nbsp;&nbsp;تقرير</a>
+                                                                            <a class="dropdown-item"  title="عرض الملف" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}"><i class="text-warning far fa-file-excel"></i>&nbsp;&nbsp;تقرير أكسيل</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -155,8 +155,7 @@
                                                                             <a class="dropdown-item" title="تعديل"  href="{{route("invoices.edit",$invoice->id)}}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
                                                                             <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
-                                                                            <a class="dropdown-item"  title="عرض الملف" ><i class="text-warning fas fa-print"></i>&nbsp;&nbsp;طباعة</a>
-                                                                            <a class="dropdown-item"  title="عرض الملف" ><i class="text-success far fa-file-excel"></i>&nbsp;&nbsp;تقرير</a>
+                                                                            <a class="dropdown-item"  title="عرض الملف" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}"><i class="text-warning far fa-file-excel"></i>&nbsp;&nbsp;تقرير أكسيل</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>

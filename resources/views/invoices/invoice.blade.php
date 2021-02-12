@@ -9,6 +9,16 @@
 <link href="{{URL::asset('assets/plugins/multislider/multislider.css')}}" rel="stylesheet">
 <!--- Select2 css -->
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+<style>
+    @media print{
+        @page{
+            margin: 0;
+        }
+        #buttons{
+            display: none;
+        }
+    }
+</style>
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -99,6 +109,9 @@
 									</div>
                                     <hr class="mg-b-40" >
                                     <div id="buttons">
+                                        <a class="btn btn-pink float-left mt-3 mr-2" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}">
+                                            <i class="fas fa-file-excel"></i>  تقرير أكسيل
+                                        </a>
                                         <a class="btn btn-purple float-left mt-3 mr-2" href="{{ route("invoices.edit",$invoice->id) }}">
                                             <i class="fas fa-edit ml-1"></i>تعديل الفاتورة
                                         </a>

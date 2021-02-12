@@ -2,7 +2,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan="11">قائمة العاملين كاملة </th>
+            <th colspan="11">قائمة العملاء كاملة </th>
         </tr>
     </thead>
     <thead>

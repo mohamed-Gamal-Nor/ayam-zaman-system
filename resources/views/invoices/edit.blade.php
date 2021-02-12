@@ -147,7 +147,7 @@
                                             <tbody>
                                                 @foreach ($invoice->purches  as $key => $item)
                                                     <tr name="line_items">
-                                                        <td style="width: 2%"  class="text-center"><a href="#" class="btn btn-sm btn-danger remove">x</a></td>
+                                                        <td style="width: 2%"  class="text-center"></td>
                                                         <td scope="row">
                                                             <div class="form-group mg-b-0">
                                                                 <select class="form-control select2" name="material_id[]" required="">

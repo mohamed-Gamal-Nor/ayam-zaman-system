@@ -9,6 +9,9 @@ use App\Models\purchases;
 use App\Models\stores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\SupplierInvoiceExport;
+use App\Exports\SupplierInvoicesExport;
+use Maatwebsite\Excel\Facades\Excel;
 class InvoicesController extends Controller
 {
     /**
@@ -204,7 +207,8 @@ class InvoicesController extends Controller
             "total"=> $request->total,
             "note"=>$request->note,
         ]);
-
+        $items = purchases::where('invoice_id',$id)->get();
+        
         if(count($request->material_id) > 0){
             foreach($request->material_id as $mataeial=>$v){
                 $item_id=$request->id[$mataeial];
@@ -255,5 +259,15 @@ class InvoicesController extends Controller
     {
         $suppliers =Suppliers::where('id', $id)->get();
         return json_encode($suppliers);
+    }
+    public function export($id)
+    {
+        return Excel::download(new SupplierInvoiceExport($id), 'invoices No - '.$id.'.xlsx');
+
+    }
+    public function invoicesExport()
+    {
+        return Excel::download(new SupplierInvoicesExport, 'all invoices.xlsx');
+
     }
 }
