@@ -85,6 +85,7 @@ Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
 Route::get('/supplier/{id}', 'App\Http\Controllers\InvoicesController@getSupplierData');
 Route::get('invoices/export/{id}', 'App\Http\Controllers\InvoicesController@export');
 Route::get('invoices/invoicesExport', 'App\Http\Controllers\InvoicesController@invoicesExport');
+Route::get('invoices/search', 'App\Http\Controllers\InvoicesController@search');
 Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
 
 Route::resource('products', 'App\Http\Controllers\ProductsController');

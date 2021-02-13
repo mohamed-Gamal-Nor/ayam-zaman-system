@@ -21,9 +21,11 @@ class InvoicesController extends Controller
      */
     public function index()
     {
+        $suppliers =Suppliers::where('status', "مفعل")->get(['id','supplier_name']);
         $invoices = invoices::all();
         $invoicesCount = $invoices->count();
-        return view("invoices.invoices",compact("invoices","invoicesCount"));
+        $invoicesSum = $invoices->sum('total');
+        return view("invoices.invoices",compact("invoices","invoicesCount",'invoicesSum','suppliers'));
     }
 
     /**
@@ -208,7 +210,7 @@ class InvoicesController extends Controller
             "note"=>$request->note,
         ]);
         $items = purchases::where('invoice_id',$id)->get();
-        
+
         if(count($request->material_id) > 0){
             foreach($request->material_id as $mataeial=>$v){
                 $item_id=$request->id[$mataeial];
@@ -268,6 +270,39 @@ class InvoicesController extends Controller
     public function invoicesExport()
     {
         return Excel::download(new SupplierInvoicesExport, 'all invoices.xlsx');
+
+    }
+    public function search(Request $request)
+    {
+        $data_start = date_create($request->start);
+        $date_start_format = date_format($data_start,"Y-m-d");
+        $data_end = date_create($request->end);
+        $date_end_format = date_format($data_end,"Y-m-d");
+        $supplier_id = $request->supplier;
+        $suppliers =Suppliers::where('status', "مفعل")->get(['id','supplier_name']);
+        if(!empty($supplier_id) && $request->start == null && $request->end == null ){
+            $invoices =  invoices::where("supplier_id",$supplier_id)->get();
+            $invoicesCount = $invoices->count();
+            $invoicesSum = $invoices->sum('total');
+            return view("invoices.search",compact("invoices","invoicesCount",'invoicesSum','suppliers'));
+        }else if(!empty($request->start) && !empty($request->end) && empty($supplier_id)){
+            $invoices = invoices::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->get();
+            $invoicesCount = $invoices->count();
+            $invoicesSum = $invoices->sum('total');
+            return view("invoices.search",compact("invoices","invoicesCount",'invoicesSum','suppliers'));
+        }else if(!empty($supplier_id) && !empty($request->start)&& !empty($request->end) ){
+
+            $invoices = invoices::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->where('supplier_id',$supplier_id)->get();
+            $invoicesCount = $invoices->count();
+            $invoicesSum = $invoices->sum('total');
+            return view("invoices.search",compact("invoices","invoicesCount",'invoicesSum','suppliers'));
+
+        }else{
+            $invoices = invoices::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->get();
+            $invoicesCount = $invoices->count();
+            $invoicesSum = $invoices->sum('total');
+            return view("invoices.search",compact("invoices","invoicesCount",'invoicesSum','suppliers'));
+        }
 
     }
 }

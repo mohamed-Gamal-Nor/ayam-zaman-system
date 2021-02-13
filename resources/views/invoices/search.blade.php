@@ -60,8 +60,8 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-start">
+                                    <a class="mx-1 btn btn-outline-success" href="{{ route('invoices.index') }}">الرجوع للقائمة</a>
                                     <a class="mx-1 btn btn-outline-primary" href="{{ route('invoices.create') }}">اضافة فاتورة مشتريات</a>
-                                    <a class="mx-1  btn btn-outline-primary" href="{{ url('/'.$page ='invoices/invoicesExport') }}">تصدير أكسيل للفواتير</a>
                                     <a class="mx-1  modal-effect btn btn-primary" data-effect="effect-scale" data-toggle="modal" href="#select2modal">بحث</a>
 							    </div>
                                 <div class="panel panel-primary tabs-style-2 mg-t-10 mg-b-5">
