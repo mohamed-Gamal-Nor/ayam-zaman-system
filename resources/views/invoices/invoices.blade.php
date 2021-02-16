@@ -60,8 +60,12 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-start">
-                                    <a class="mx-1 btn btn-outline-primary" href="{{ route('invoices.create') }}">اضافة فاتورة مشتريات</a>
-                                    <a class="mx-1  btn btn-outline-primary" href="{{ url('/'.$page ='invoices/invoicesExport') }}">تصدير أكسيل للفواتير</a>
+                                    @can("اضافة فاتورة مشتريات")
+                                        <a class="mx-1 btn btn-outline-primary" href="{{ route('invoices.create') }}">اضافة فاتورة مشتريات</a>
+                                    @endcan
+                                    @can("تصديرأكسيل")
+                                        <a class="mx-1  btn btn-outline-primary" href="{{ url('/'.$page ='invoices/invoicesExport') }}">تصدير أكسيل للفواتير</a>
+                                    @endcan
                                     <a class="mx-1  modal-effect btn btn-primary" data-effect="effect-scale" data-toggle="modal" href="#select2modal">بحث</a>
 							    </div>
                                 <div class="panel panel-primary tabs-style-2 mg-t-10 mg-b-5">
@@ -109,10 +113,18 @@
                                                                             class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                             type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                                         <div class="dropdown-menu tx-13">
+                                                                            @can("تعديل فاتورة مشتريات")
                                                                             <a class="dropdown-item" title="تعديل" href="{{route("invoices.edit",$invoice->id)}}" ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                            @endcan
+                                                                            @can("حذف فاتورة مشتريات")
                                                                             <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                            @endcan
+                                                                            @can("عرض فاتورة مشتريات")
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
+                                                                            @endcan
+                                                                            @can("تصديرأكسيل")
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}"><i class="text-warning far fa-file-excel"></i>&nbsp;&nbsp;تقرير أكسيل</a>
+                                                                            @endcan
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -157,10 +169,18 @@
                                                                             class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
                                                                             type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                                         <div class="dropdown-menu tx-13">
-                                                                            <a class="dropdown-item" title="تعديل"  href="{{route("invoices.edit",$invoice->id)}}"><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                            @can("تعديل فاتورة مشتريات")
+                                                                            <a class="dropdown-item" title="تعديل" href="{{route("invoices.edit",$invoice->id)}}" ><i class="text-secondary far fa-edit"></i>&nbsp;&nbsp;تعديل</a>
+                                                                            @endcan
+                                                                            @can("حذف فاتورة مشتريات")
                                                                             <a class="dropdown-item" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8" data-id="{{$invoice->id}}" data-supplier="{{$invoice->supplier->supplier_name}}" data-total="{{number_format($invoice->total,2)}}"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف</a>
+                                                                            @endcan
+                                                                            @can("عرض فاتورة مشتريات")
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ route("invoices.show",$invoice->id) }}"><i class="text-success far fa-eye"></i>&nbsp;&nbsp;عرض</a>
+                                                                            @endcan
+                                                                            @can("تصديرأكسيل")
                                                                             <a class="dropdown-item"  title="عرض الملف" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}"><i class="text-warning far fa-file-excel"></i>&nbsp;&nbsp;تقرير أكسيل</a>
+                                                                            @endcan
                                                                         </div>
                                                                     </div>
                                                                 </td>

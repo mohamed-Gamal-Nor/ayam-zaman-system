@@ -109,15 +109,21 @@
 									</div>
                                     <hr class="mg-b-40" >
                                     <div id="buttons">
+                                        @can("تصديرأكسيل")
                                         <a class="btn btn-pink float-left mt-3 mr-2" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}">
                                             <i class="fas fa-file-excel"></i>  تقرير أكسيل
                                         </a>
+                                        @endcan
+                                        @can("تعديل فاتورة مشتريات")
                                         <a class="btn btn-purple float-left mt-3 mr-2" href="{{ route("invoices.edit",$invoice->id) }}">
                                             <i class="fas fa-edit ml-1"></i>تعديل الفاتورة
                                         </a>
+                                        @endcan
+                                        @can("حذف فاتورة مشتريات")
                                         <a class="btn btn-danger float-left mt-3 mr-2" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8">
                                             <i class="fas fa-trash-alt ml-1"></i>حذف الفاتورة
                                         </a>
+                                        @endcan
                                         <a href="#" id="printDiv" class="btn btn-warning float-left mt-3 mr-2">
                                             <i class="mdi mdi-printer ml-1"></i>طباعة الفاتورة
                                         </a>

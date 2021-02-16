@@ -14,6 +14,16 @@ use App\Exports\SupplierInvoicesExport;
 use Maatwebsite\Excel\Facades\Excel;
 class InvoicesController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:قائمة المشتريات', ['only' => ['index']]);
+        $this->middleware('permission:اضافة فاتورة مشتريات', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل فاتورة مشتريات', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف فاتورة مشتريات', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض فاتورة مشتريات', ['only' => ['show']]);
+    }
     /**
      * Display a listing of the resource.
      *

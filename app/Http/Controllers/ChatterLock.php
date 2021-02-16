@@ -14,8 +14,10 @@ class ChatterLock extends Controller
      public function unlock(Request $request)
     {
         if(Hash::check($request->password,Auth::user()->password)){
+
             session()->forget('locked');
             session()->put('last_request',time());
+
             return redirect()->route('home');
         }
         return redirect('/locked')->withErrors(['password' => 'كلمة المرور غير صحيحة']);

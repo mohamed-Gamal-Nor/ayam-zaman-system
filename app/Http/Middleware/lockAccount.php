@@ -16,6 +16,7 @@ class lockAccount
      */
     public function handle(Request $request, Closure $next)
     {
+
         $max = 10*60;
         if(!session()->has('last_request') || $max > (time() - session('last_request') )){
             session()->put('last_request',time());
