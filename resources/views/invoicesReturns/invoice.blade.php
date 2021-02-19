@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-     فاتورة المشتريات - مصنع ايام زمان
+     فاتورة المرتجع - مصنع ايام زمان
 @stop
 @section('css')
 <!---Internal Owl Carousel css-->
@@ -42,7 +42,7 @@
                                             <img class="wd-200" src="{{URL::asset('assets/img/brand/ayamzaman.svg')}}" alt="">
                                         </div>
 										<div class="col-md">
-                                            <h1 class="text-center">فاتورة مشتريات مورد</h1>
+                                            <h1 class="text-center">فاتورة مرتجع </h1>
 											<label class="tx-gray-600">معلومات الفاتورة</label>
 											<p class="invoice-info-row"><span>فاتورة رقم</span> <span>{{ $invoice->id }}</span></p>
 											<p class="invoice-info-row"><span>كود المورد</span> <span>{{ $invoice->supplier->id }}</span></p>
@@ -66,7 +66,7 @@
 											</thead>
 											<tbody>
                                                 <?php $i=0;?>
-                                                @foreach ($invoice->purches  as $key => $item)
+                                                @foreach ($invoice->purchesReturns  as $key => $item)
                                                 <?php $i++?>
                                                 <tr class="text-center">
 													<td>{{ $i }}</td>
@@ -110,17 +110,12 @@
 									</div>
                                     <hr class="mg-b-40" >
                                     <div id="buttons">
-                                        @can("تصديرأكسيل")
-                                        <a class="btn btn-pink float-left mt-3 mr-2" href="{{ url('/'.$page ='invoices/export/'. $invoice->id) }}">
-                                            <i class="fas fa-file-excel"></i>  تقرير أكسيل
-                                        </a>
-                                        @endcan
-                                        @can("تعديل فاتورة مشتريات")
-                                        <a class="btn btn-purple float-left mt-3 mr-2" href="{{ route("invoices.edit",$invoice->id) }}">
+                                        @can("تعديل مرتجع مشتريات")
+                                        <a class="btn btn-purple float-left mt-3 mr-2" href="{{ route("InvoicesReturns.edit",$invoice->id) }}">
                                             <i class="fas fa-edit ml-1"></i>تعديل الفاتورة
                                         </a>
                                         @endcan
-                                        @can("حذف فاتورة مشتريات")
+                                        @can("حذف مرتجع مشتريات")
                                         <a class="btn btn-danger float-left mt-3 mr-2" data-effect="effect-scale"  data-toggle="modal" title="حذف" href="#modaldemo8">
                                             <i class="fas fa-trash-alt ml-1"></i>حذف الفاتورة
                                         </a>
@@ -128,7 +123,7 @@
                                         <a href="#" id="printDiv" class="btn btn-warning float-left mt-3 mr-2">
                                             <i class="mdi mdi-printer ml-1"></i>طباعة الفاتورة
                                         </a>
-                                        <a href="{{ route("invoices.index") }}" class="btn btn-success float-left mt-3">
+                                        <a href="{{ route("InvoicesReturns.index") }}" class="btn btn-success float-left mt-3">
                                             <i class="fas fa-undo ml-1"></i>الرجوع للقائمة
                                         </a>
                                     </div>
@@ -143,7 +138,7 @@
                                         <h6 class="modal-title">حذف فاتورة</h6><button aria-label="Close" class="close"
                                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <form action="{{ route('invoices.destroy','test') }}" method="post">
+                                    <form action="{{ route('InvoicesReturns.destroy','test') }}" method="post">
                                         {{ method_field('delete') }}
                                         {{ csrf_field() }}
                                         <div class="modal-body">

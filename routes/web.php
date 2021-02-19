@@ -86,6 +86,8 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
 
 
 Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
+Route::get('InvoicesReturns/search', 'App\Http\Controllers\InvoicesReturnsController@search');
+Route::resource('InvoicesReturns', 'App\Http\Controllers\InvoicesReturnsController');
 
 
 Route::resource('products', 'App\Http\Controllers\ProductsController');

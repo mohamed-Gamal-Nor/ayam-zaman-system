@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\sectionUSers;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller

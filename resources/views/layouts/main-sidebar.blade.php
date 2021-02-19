@@ -58,10 +58,15 @@
                                 @can("اضافة فاتورة مشتريات")
                                     <li><a class="slide-item" href="{{ url('/' . $page='invoices/create') }}">أضافة فاتورة مشتريات</a></li>
                                 @endcan
-                                <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">ارتجاع مشتريات</a></li>
+                                @can("قائمة مرتجع مشتريات")
+                                <li><a class="slide-item" href="{{ url('/' . $page='InvoicesReturns') }}">قائمة مرتجع المشتريات</a></li>
+                                @endcan
+                                @can("اضافة مرتجع مشتريات")
+                                <li><a class="slide-item" href="{{ url('/' . $page='InvoicesReturns/create') }}">أضافة مرتجع</a></li>
+                                @endcan
                                 <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">كشف حساب مورد</a></li>
-                                <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">متوسط اسعار خامات</a></li>
-                                <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}"> مخزون الخامات</a></li>
+                                <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">اجمالي مشتريات خامات</a></li>
+                                <li><a class="slide-item" href="{{ url('/' . $page='purchases') }}"> اخر سعر مشتريات للخامات</a></li>
                             </ul>
                         </li>
                     @endcan

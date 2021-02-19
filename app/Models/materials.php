@@ -12,4 +12,7 @@ class materials extends Model
     public function unit(){
         return $this->belongsTo('App\Models\materialsUnit');
     }
+    public function purchases(){
+        return $this->belongsToMany('App\Models\purchases','material_id');
+    }
 }
