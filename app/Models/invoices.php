@@ -10,7 +10,7 @@ class invoices extends Model
     use HasFactory;
     protected $guarded = [];
     public function supplier(){
-        return $this->belongsTo('App\Models\Suppliers');
+        return $this->belongsTo('App\Models\Suppliers')->withTrashed() ;
     }
     public function store(){
         return $this->belongsTo('App\Models\stores');

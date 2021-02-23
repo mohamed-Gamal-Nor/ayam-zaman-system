@@ -64,7 +64,7 @@
                                 @can("اضافة مرتجع مشتريات")
                                 <li><a class="slide-item" href="{{ url('/' . $page='InvoicesReturns/create') }}">أضافة مرتجع</a></li>
                                 @endcan
-                                <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">كشف حساب مورد</a></li>
+                                <li><a class="slide-item" href="{{ url('/' . $page='accountStatement') }}">كشف حساب مورد</a></li>
                                 <li><a class="slide-item" href="{{ url('/' . $page='chart-chartjs') }}">اجمالي مشتريات خامات</a></li>
                                 <li><a class="slide-item" href="{{ url('/' . $page='purchases') }}"> اخر سعر مشتريات للخامات</a></li>
                             </ul>

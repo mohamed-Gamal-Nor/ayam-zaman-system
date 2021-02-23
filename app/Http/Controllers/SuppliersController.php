@@ -65,6 +65,8 @@ class SuppliersController extends Controller
             'Type_of_supply'=> "required|string|max:100",
             "status" => "required|string",
             'Type_of_pay' => 'required|string',
+            'start_balance' => 'required|numeric',
+
         ],[
             'supplier_name.required' => 'يجب ادخال اسم المورد',
             'supplier_name.min' => 'يجب اسم المورد لايقل عن ثلاث حروف',
@@ -87,6 +89,8 @@ class SuppliersController extends Controller
             'Type_of_supply.required' => 'يجب اختيار نوع التوريد',
             'status.required' => 'يجب اختيار الحاله ',
             'Type_of_pay.required' => 'يجب اختيار نوع الدفع ',
+            'start_balance.required' => 'يجب ادخال رصيد بداية المدة',
+            'start_balance.numeric' =>'يجب ان يكون رصيد بداية المدة ارقاما'
         ]);
         $input = $request->all();
         suppliers::create($input);
@@ -147,6 +151,7 @@ class SuppliersController extends Controller
             'Type_of_supply'=> "required|string|max:100",
             "status" => "required|string",
             'Type_of_pay' => 'required|string',
+            'start_balance' => 'required|numeric',
         ],[
             'supplier_name.required' => 'يجب ادخال اسم المورد',
             'supplier_name.min' => 'يجب اسم المورد لايقل عن ثلاث حروف',
@@ -169,6 +174,8 @@ class SuppliersController extends Controller
             'Type_of_supply.required' => 'يجب اختيار نوع التوريد',
             'status.required' => 'يجب اختيار الحاله ',
             'Type_of_pay.required' => 'يجب اختيار نوع الدفع ',
+            'start_balance.required' => 'يجب ادخال رصيد بداية المدة',
+            'start_balance.numeric' =>'يجب ان يكون رصيد بداية المدة ارقاما'
         ]);
         $input= $request->all();
         $suppliers = suppliers::find($id);
