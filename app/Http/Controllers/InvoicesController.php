@@ -106,6 +106,7 @@ class InvoicesController extends Controller
             'value_vat'=> $request->value_vat,
             "total"=> $request->total,
             "note"=>$request->note,
+            "statment"=>"1",
             "created_by"=>$created_by
         ])->id;
         if(count($request->material_id) > 0){

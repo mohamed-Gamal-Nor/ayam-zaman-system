@@ -27,6 +27,7 @@ class CreateInvoicesTable extends Migration
             $table->double('value_vat',8,3)->nullable();
             $table->double('total',8,3);
             $table->text('note')->nullable();
+            $table->boolean('statment')->default(1)->change();
             $table->string('created_by');
             $table->timestamps();
         });

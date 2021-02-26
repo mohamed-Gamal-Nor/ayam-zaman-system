@@ -9,6 +9,18 @@
 <link href="{{URL::asset('assets/plugins/prism/prism.css')}}" rel="stylesheet">
 <!--- Custom-scroll -->
 <link href="{{URL::asset('assets/plugins/custom-scroll/jquery.mCustomScrollbar.css')}}" rel="stylesheet">
+<!--Internal   Notify -->
+<link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
+<style>
+    @media print{
+        @page{
+            margin: 0;
+        }
+        #buttons{
+            display: none;
+        }
+    }
+    </style>
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -35,7 +47,6 @@
                                     </div>
                                     <p class="mg-b-20">يرجي تحديد اسم المورد او الكود</p>
                                     <div>
-
                                         <section>
                                             <div class="row row-sm mg-b-10">
                                                 <div class="col-lg-3">
@@ -97,83 +108,62 @@
                                         </section>
                                         <div class="d-flex justify-content-right mg-b-5">
                                             <button type="submit" class="mx-1 btn btn-primary text-right" id="search">بحث</button>
+                                            <div class="spinner-border " role="status" id="supplier_loading">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
 						</div>
-                        <div class="card" id="card">
-                            <div class="example" id="loadingDiv">
-                                <div class="spinner-grow" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                            <div class="card-header pb-0">
-								<div class="d-flex justify-content-between">
-                                    <div class=" col-lg-3">
-                                        <p class="invoice-info-row"><span>رصيد بداية المدة </span> <span class="text-right text-success" id='supplier_balance'>3</span></p>
-                                        <p class="invoice-info-row"><span>اسم المورد </span> <span class="text-right text-success" id='supplier_name'>3</span></p>
-                                        <p class="invoice-info-row"><span>من الفترة </span> <span class="text-right text-success" id='start_date'>3</span></p>
-                                        <p class="invoice-info-row"><span>الي الفترة </span> <span class="text-right text-success" id='end_date'>3</span></p>
+                        <div id="card">
+                            <div class="card">
+                                <div class="card-header pb-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div class=" col-lg-3">
+                                            <p class="invoice-info-row"><span>رصيد بداية المدة </span> <span class="text-right text-success" id='supplierbalance'></span></p>
+                                            <p class="invoice-info-row"><span>اسم المورد </span> <span class="text-right text-primary" id='supplier_name'></span></p>
+                                            <p class="invoice-info-row"><span>من الفترة </span> <span class="text-right text-warning" id='start_date'></span></p>
+                                            <p class="invoice-info-row"><span>الي الفترة </span> <span class="text-right text-warning" id='end_date'></span></p>
+                                        </div>
+                                        <div class=" col-lg-3">
+                                            <p class="invoice-info-row"><span>اجمالي مشتريات خلال الفترة</span> <span class="text-right text-success" id='totalInvoices'></span></p>
+                                            <p class="invoice-info-row"><span>اجمالي مرتجعات خلال الفترة</span> <span class="text-right text-danger" id='totalReturn'></span></p>
+                                            <p class="invoice-info-row"><span>اجمالي السداد خلال الفترة</span> <span class="text-right text-danger" id='totalPay'></span></p>
+                                            <p class="invoice-info-row"><span>صافي الرصيد </span> <span class="text-right text-success" id='balance'></span></p>
+                                        </div>
+                                        <div class="col-lg-6 text-left">
+                                            <img class="wd-150" src="{{URL::asset('assets/img/brand/ayamzaman.svg')}}" alt="">
+                                        </div>
+                                        
                                     </div>
-									<img class="wd-150" src="{{URL::asset('assets/img/brand/ayamzaman.svg')}}" alt="">
-								</div>
-							</div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-									<table class="table table-hover mb-0 text-md-nowrap">
-										<thead>
-											<tr>
-												<th>ID</th>
-												<th>Name</th>
-												<th>Position</th>
-												<th>Salary</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td>Tiger Nixon</td>
-												<td>System Architect</td>
-												<td>$320,800</td>
-											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td>Garrett Winters</td>
-												<td>Accountant</td>
-												<td>$170,750</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td>Ashton Cox</td>
-												<td>Junior Technical Author</td>
-												<td>$86,000</td>
-											</tr>
-											<tr>
-												<th scope="row">4</th>
-												<td>Cedric Kelly</td>
-												<td>Senior Javascript Developer</td>
-												<td>$433,060</td>
-											</tr>
-											<tr>
-												<th scope="row">5</th>
-												<td>Airi Satou</td>
-												<td>Accountant</td>
-												<td>$162,700</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-                                <div class="row row-sm mg-t-10">
-                                    <div class="col-sm-6 col-lg-4 mg-sm-t-0 text-center">
-                                        <ul class="pagination pagination-success mb-0 text-center">
-                                            <li class="page-item"><a class="page-link" href="#"><i class="icon ion-ios-arrow-forward"></i></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><i class="icon ion-ios-arrow-back"></i></a></li>
-                                        </ul>
-                                    </div><!-- col-4 -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0 text-md-nowrap">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th class="border-bottom-0">التاريخ</th>
+                                                    <th class="border-bottom-0">رقم الفاتورة</th>
+                                                    <th class="border-bottom-0">الحالة</th>
+                                                    <th class="border-bottom-0">مدين</th>
+                                                    <th class="border-bottom-0">دائن</th>
+                                                    <th class="border-bottom-0">الرصيد</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr class="mg-b-40" >
+                                    <div id="buttons">
+                                        <a class="btn btn-pink float-left mt-3 mr-2" href="">
+                                            <i class="fas fa-file-excel"></i>  تقرير أكسيل
+                                        </a>
+                                        <a href="#" id="printDiv" class="btn btn-warning float-left mt-3 mr-2">
+                                            <i class="mdi mdi-printer ml-1"></i>طباعة الكشف
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -201,10 +191,18 @@
 <script src="{{URL::asset('assets/plugins/clipboard/clipboard.js')}}"></script>
 <!-- Internal Prism js-->
 <script src="{{URL::asset('assets/plugins/prism/prism.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 <script>
     $(document).ready(function() {
+        var $loading = $('#supplier_loading').hide();
         $('select[name="supplier_id"]').on('change', function() {
-
+            $(document).ajaxStart(function () {
+                $loading.show();
+                }).ajaxStop(function () {
+                    $loading.hide();
+                });
             var supplierId = $(this).val();
             if (supplierId) {
 
@@ -233,30 +231,101 @@
             }
 
         });
-        var $loading = $('#loadingDiv').show();
-        $(document).ajaxStart(function () {
-                $loading.show();
-            }).ajaxStop(function () {
-                $loading.hide();
-            });
+        var $card = $('#card').hide();
         $("#form_statment").submit(function(e) {
             e.preventDefault();
             var form = $(this);
             var supplierId = $('select[name="supplier_id"]').val();
-            if (supplierId) {
+            var start = $('input[name="start"]').val();
+            var end = $('input[name="end"]').val();
+            if(end < start){
+                notif({
+                    msg: " خطأ لايجب ان يكون تاريخ النهاية اقدم من تاريخ البداية",
+                    type: "error"
+                });
+            }else{
+                if (supplierId) {
                 $.ajax({
                     type: "POST",
                     url: "{{ URL::to('getStatement') }}/" + supplierId,
                     data: form.serialize(), // serializes the form's elements.
                     success: function(data)
                     {
-                        alert(data); // show response from the php script.
-                    }
+                        
+                        var sumInvoicesBalance = data['sumInvoicesBalance'];
+                        var sumInvoicesReturnsBalance = data['sumInvoicesReturnsBalance'];
+                        var supplierBalance = data['supplierBalance'];
+                        var startBalance;
+                        if(start == ''){
+                            startBalance = data['supplier'][0]['start_balance'];
+                        }else{
+                            startBalance = (supplierBalance + sumInvoicesBalance) - sumInvoicesReturnsBalance;
+                        }
+                        
+
+                        $('#supplierbalance').empty();
+                        $('#supplierbalance').text(startBalance);
+                        $('#supplier_name').empty();
+                        $('#supplier_name').text(data['supplier'][0]['supplier_name']);
+                        $('#start_date').empty();
+                        $('#start_date').text(data['start']);
+                        $('#end_date').empty();
+                        $('#end_date').text(data['end']);
+                        $('#totalInvoices').empty();
+                        $('#totalInvoices').text(data['invoicesSum']);
+                        $('#totalReturn').empty();
+                        $('#totalReturn').text(data['invoicesReturns']);
+                        $("tbody").empty();
+                        var statment;
+                        var Debit;
+                        var Credite;
+                        var classNotif;
+                        $.each(data['statment'],function(index){
+                            if(data['statment'][index]['statment'] === 1)
+                            {
+                                statment = "فاتورة مشتريات";
+                                Debit = 0;
+                                Credite = data['statment'][index]['total'];
+                                startBalance +=Credite;
+                                classNotif = "text-success";
+                            }else if(data['statment'][index]['statment'] === 0){
+                                statment = "فاتورة مرتجع";
+                                Credite = 0;
+                                Debit = data['statment'][index]['total'];
+                                startBalance -=Debit;
+                                classNotif = "text-danger";
+                            }
+                            var tr =
+                                '<tr class="text-center">'+
+                                    '<td>'+data['statment'][index]['invoice_Date']+'</td>'+
+                                    '<td>'+data['statment'][index]['id']+'</td>'+
+                                    '<td>'+ statment +'</td>'+
+                                    '<td>'+ Debit +'</td>'+
+                                    '<td>'+ Credite +'</td>'+
+                                    '<td class="'+ classNotif +'">'+ startBalance +'</td>'+
+                                '</tr>';
+                            $("tbody").append(tr);
+                        });
+                        $("#balance").text(startBalance);
+                        $card.show();
+                        console.log(data);
+                    },
+                    error : function(err) {
+                        console.log('Error!', err);
+                    },
                 });
             } else {
                 console.log('AJAX load did not work');
             }
-
+            }
+        });
+        $("#printDiv").on('click',function(){
+            var printContents = document.getElementById("card").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload();
         });
     });
 </script>
