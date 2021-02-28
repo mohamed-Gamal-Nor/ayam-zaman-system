@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class accountStatement extends Controller
 {
+    function __construct()
+    {
+
+        $this->middleware('permission:كشف حساب مورد', ['only' => ['index','getStatement']]);
+    }
     public function index(){
 
         $suppliers =Suppliers::where('status', "مفعل")->get(['id','supplier_name']);
@@ -18,11 +23,11 @@ class accountStatement extends Controller
     {
 
         $suppliers = $request->supplier_id;
-        
+
         $data_start = date_create($request->start);
         $date_start_format = date_format($data_start,"Y-m-d");
         if($request->start == null){
-            $date_start_format = "1990-01-01";
+            $date_start_format = "2020-01-01";
         }
         $data_end = date_create($request->end);
         $date_end_format = date_format($data_end,"Y-m-d");

@@ -15,4 +15,7 @@ class Suppliers extends Model
     public function invoices(){
         return $this->hasMany('App\Models\invoices','supplier_id');
     }
+    public function pays(){
+        return $this->hasMany('App\Models\supplierPay','supplier_id');
+    }
 }

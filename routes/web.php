@@ -22,6 +22,9 @@ Route::post('/unlocked','App\Http\Controllers\ChatterLock@unlock')->name('unlock
 
 Route::group(['middleware' => ['auth','lock_screen']], function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    //supplier statment
+    Route::get('accountStatement', 'App\Http\Controllers\accountStatement@index');
+    Route::post('getStatement/{id}', 'App\Http\Controllers\accountStatement@getStatement');
     //invoices Returns
     Route::get('InvoicesReturns/search', 'App\Http\Controllers\InvoicesReturnsController@search');
     Route::resource('InvoicesReturns', 'App\Http\Controllers\InvoicesReturnsController');
@@ -89,13 +92,12 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
 
 
 
-Route::get('accountStatement', 'App\Http\Controllers\accountStatement@index');
-Route::post('getStatement/{id}', 'App\Http\Controllers\accountStatement@getStatement');
+
 
 
 Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
 
-
+Route::resource('supplierPays','App\Http\Controllers\SupplierPayController');
 
 Route::resource('products', 'App\Http\Controllers\ProductsController');
 Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
