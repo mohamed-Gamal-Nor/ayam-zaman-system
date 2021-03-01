@@ -30,6 +30,21 @@
 				<!-- breadcrumb -->
 @endsection
 @section('content')
+                @if ($errors->any())
+                    <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
+                        <div class="card-header text-danger font-weight-bold">
+                            <i class="far fa-times-circle"></i> رسالة خطأ
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="card-body text-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
 				<!-- row -->
 				<div class="row">
                     <div class="col-lg-12 col-md-12">
@@ -106,7 +121,7 @@
                                                 </div>
                                                 <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                                     <label>قيمة الدفعة: <span class="tx-danger">*</span></label>
-                                                    <input class="form-control" data-parsley-class-handler="#lnWrapper" name="value" placeholder="قيمة الدفعة" required="" type="number">
+                                                    <input class="form-control" data-parsley-class-handler="#lnWrapper" name="value_recipet" placeholder="قيمة الدفعة" required="" type="number">
                                                 </div>
                                             </div>
                                             <div class="row mg-b-20">
@@ -139,7 +154,7 @@
                                                 </div>
                                                 <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                                     <label>قيمة الدفعة: <span class="tx-danger">*</span></label>
-                                                    <input class="form-control" data-parsley-class-handler="#lnWrapper" name="value" placeholder="قيمة الدفعة" required="" type="number">
+                                                    <input class="form-control" data-parsley-class-handler="#lnWrapper" name="value_check" placeholder="قيمة الدفعة" required="" type="number">
                                                 </div>
                                             </div>
                                             <div class="row mg-b-20">
