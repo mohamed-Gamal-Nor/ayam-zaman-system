@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth','lock_screen']], function() {
 
 
 
-
+Route::get('accountStatement/export/', 'App\Http\Controllers\accountStatement@export');
 
 Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
 

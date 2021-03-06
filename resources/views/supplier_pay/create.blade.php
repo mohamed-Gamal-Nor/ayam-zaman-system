@@ -17,6 +17,8 @@
 <link href="{{URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
 <!--Internal Sumoselect css-->
 <link rel="stylesheet" href="{{URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css')}}">
+<!--Internal   Notify -->
+<link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -44,6 +46,36 @@
                             </ul>
                         </div>
                     </div>
+                @endif
+                @if (session()->has('erorr'))
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " خطأ في النظام",
+                                type: "error"
+                            });
+                        }
+                    </script>
+                @endif
+                @if (session()->has('AddReicpet'))
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " تم أضافة السداد بايصال بنجاح",
+                                type: "success"
+                            });
+                        }
+                    </script>
+                @endif
+                @if (session()->has('AddCheck'))
+                    <script>
+                        window.onload = function() {
+                            notif({
+                                msg: " تم أضافة السداد بشيك بنجاح",
+                                type: "success"
+                            });
+                        }
+                    </script>
                 @endif
 				<!-- row -->
 				<div class="row">
@@ -113,6 +145,7 @@
                                         <form autocomplete="off" action="{{route("supplierPays.store")}}" method="post" class="parsley-style-1" id="selectForm2" name="selectForm2" enctype="multipart/form-data">
                                             @method('post')
                                             @csrf
+                                            <input type="hidden" name="type_pay" value="1">
                                             <input type="hidden" name="supplier_id">
                                             <div class="row mg-b-20">
                                                 <div class="parsley-input col-md-6" id="fnWrapper">
@@ -146,6 +179,7 @@
 										<form autocomplete="off" action="{{route("supplierPays.store")}}" method="post" class="parsley-style-1" id="selectForm" name="selectForm" enctype="multipart/form-data">
                                             @method('post')
                                             @csrf
+                                            <input type="hidden" name="type_pay" value="0">
                                             <input type="hidden" name="supplier_id">
                                             <div class="row mg-b-20">
                                                 <div class="parsley-input col-md-6" id="fnWrapper">
@@ -169,8 +203,8 @@
                                                     <textarea class="form-control" placeholder="ادخل ملاحظاتك" rows="9" name="note"></textarea>
                                                 </div>
                                                 <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                                                    <label>مرفقات للدفع - PDF : <span class="tx-danger">*</span></label>
-                                                    <input type="file" class="dropify" data-height="200" name="document" accept="application/pdf" required=""/>
+                                                    <label>مرفقات للدفع - PDF : </label>
+                                                    <input type="file" class="dropify" data-height="200" name="document" accept="application/pdf"/>
                                                 </div>
                                             </div>
                                             <div class="mg-t-30">

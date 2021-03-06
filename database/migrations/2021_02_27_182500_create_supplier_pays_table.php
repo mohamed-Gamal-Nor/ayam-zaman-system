@@ -24,6 +24,8 @@ class CreateSupplierPaysTable extends Migration
             $table->text('note')->nullable();
             $table->text("document")->nullable();
             $table->date("date_pay");
+            $table->boolean('pay_taype');
+            $table->boolean('statment')->default(2);
             $table->timestamps();
         });
     }

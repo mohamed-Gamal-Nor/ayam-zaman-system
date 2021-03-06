@@ -144,7 +144,7 @@
                                             <thead>
                                                 <tr class="text-center">
                                                     <th class="border-bottom-0">التاريخ</th>
-                                                    <th class="border-bottom-0">رقم الفاتورة</th>
+                                                    <th class="border-bottom-0">رقم الفاتورة / رقم السداد</th>
                                                     <th class="border-bottom-0">الحالة</th>
                                                     <th class="border-bottom-0">مدين</th>
                                                     <th class="border-bottom-0">دائن</th>
@@ -157,9 +157,16 @@
                                     </div>
                                     <hr class="mg-b-40" >
                                     <div id="buttons">
-                                        <a class="btn btn-pink float-left mt-3 mr-2" href="">
+                                        <a href="" class="btn btn-pink float-left mt-3 mr-2" onclick="event.preventDefault();document.getElementById('excel-form').submit();">
                                             <i class="fas fa-file-excel"></i>  تقرير أكسيل
                                         </a>
+                                        <form id="excel-form" action="{{url('/' . $page='accountStatement/export')}}" method="POST" style="display: none">
+                                            @csrf
+                                            @method("get")
+                                            <input type="hidden" id="supplier_id" name="id_supplier">
+                                            <input type="hidden" id="excel-start" name="excel_start">
+                                            <input type="hidden" id="excel-end" name="excel_end">
+                                        </form>
                                         <a href="#" id="printDiv" class="btn btn-warning float-left mt-3 mr-2">
                                             <i class="mdi mdi-printer ml-1"></i>طباعة الكشف
                                         </a>
@@ -198,6 +205,7 @@
     $(document).ready(function() {
         var $loading = $('#supplier_loading').hide();
         $('select[name="supplier_id"]').on('change', function() {
+            $("#supplier_id").val($(this).val());
             $(document).ajaxStart(function () {
                 $loading.show();
                 }).ajaxStop(function () {
@@ -244,6 +252,8 @@
                     type: "error"
                 });
             }else{
+                $("#excel-start").val(start);
+                $("#excel-end").val(end);
                 if (supplierId) {
                 $.ajax({
                     type: "POST",
@@ -255,16 +265,17 @@
                         var sumInvoicesBalance = data['sumInvoicesBalance'];
                         var sumInvoicesReturnsBalance = data['sumInvoicesReturnsBalance'];
                         var supplierBalance = data['supplierBalance'];
+                        var sumPayBalance = data['sumPayBalance'];
                         var startBalance;
                         if(start == ''){
                             startBalance = data['supplier'][0]['start_balance'];
                         }else{
-                            startBalance = (supplierBalance + sumInvoicesBalance) - sumInvoicesReturnsBalance;
+                            startBalance = (supplierBalance + sumInvoicesBalance) - (sumInvoicesReturnsBalance + sumPayBalance);
                         }
                         
 
                         $('#supplierbalance').empty();
-                        $('#supplierbalance').text(startBalance);
+                        $('#supplierbalance').text(parseInt(startBalance).toLocaleString());
                         $('#supplier_name').empty();
                         $('#supplier_name').text(data['supplier'][0]['supplier_name']);
                         $('#start_date').empty();
@@ -272,43 +283,74 @@
                         $('#end_date').empty();
                         $('#end_date').text(data['end']);
                         $('#totalInvoices').empty();
-                        $('#totalInvoices').text(data['invoicesSum']);
+                        $('#totalInvoices').text(parseInt(data['invoicesSum']).toLocaleString());
                         $('#totalReturn').empty();
-                        $('#totalReturn').text(data['invoicesReturns']);
+                        $('#totalReturn').text(parseInt(data['invoicesReturns']).toLocaleString());
+                        $('#totalPay').empty();
+                        $('#totalPay').text(parseInt(data['supllierPaysSum']).toLocaleString());
                         $("tbody").empty();
                         var statment;
                         var Debit;
                         var Credite;
                         var classNotif;
+                        var date;
+                        var arrow;
                         $.each(data['statment'],function(index){
+                            
                             if(data['statment'][index]['statment'] === 1)
                             {
+                                date = data['statment'][index]['invoice_Date'];
                                 statment = "فاتورة مشتريات";
                                 Debit = 0;
                                 Credite = data['statment'][index]['total'];
                                 startBalance +=Credite;
                                 classNotif = "text-success";
+                                arrow = 'fa-caret-up';
+                                
                             }else if(data['statment'][index]['statment'] === 0){
+                                date = data['statment'][index]['invoice_Date'];
                                 statment = "فاتورة مرتجع";
                                 Credite = 0;
                                 Debit = data['statment'][index]['total'];
                                 startBalance -=Debit;
                                 classNotif = "text-danger";
+                                arrow = 'fa-caret-down';
+                            }else if(data['statment'][index]['statment'] === 2){
+                                if(data['statment'][index]['pay_taype'] === 0){
+                                    date = data['statment'][index]['date_pay'];
+                                    if(data['statment'][index]['number_recipet'] == null){
+                                        statment = " سداد نقدي ";
+                                    }else{
+                                        statment = " سداد بايصال رقم " + data['statment'][index]['number_recipet'];
+                                    }
+                                    Credite = 0;
+                                    Debit = data['statment'][index]['value'];
+                                    startBalance -=Debit;
+                                    classNotif = "text-danger";
+                                    arrow = 'fa-caret-down';
+                                }else if(data['statment'][index]['pay_taype'] === 1){
+                                    date = data['statment'][index]['date_pay'];
+                                    statment = " سداد بشيك رقم " + data['statment'][index]['number_check'];
+                                    Credite = 0;
+                                    Debit = data['statment'][index]['value'];
+                                    startBalance -=Debit;
+                                    classNotif = "text-danger";
+                                    arrow = 'fa-caret-down';
+                                }
                             }
                             var tr =
                                 '<tr class="text-center">'+
-                                    '<td>'+data['statment'][index]['invoice_Date']+'</td>'+
+                                    '<td>'+date+'</td>'+
                                     '<td>'+data['statment'][index]['id']+'</td>'+
                                     '<td>'+ statment +'</td>'+
-                                    '<td>'+ Debit +'</td>'+
-                                    '<td>'+ Credite +'</td>'+
-                                    '<td class="'+ classNotif +'">'+ startBalance +'</td>'+
+                                    '<td>'+ parseInt(Debit).toLocaleString() +'</td>'+
+                                    '<td>'+ parseInt(Credite).toLocaleString() +'</td>'+
+                                    '<td class="'+ classNotif +'">'+ parseInt(startBalance).toLocaleString() +'<i class=" fas '+ arrow +' "></i></td>'+
                                 '</tr>';
                             $("tbody").append(tr);
                         });
-                        $("#balance").text(startBalance);
+                        $("#balance").text(parseInt(startBalance).toLocaleString());
                         $card.show();
-                        console.log(data);
                     },
                     error : function(err) {
                         console.log('Error!', err);

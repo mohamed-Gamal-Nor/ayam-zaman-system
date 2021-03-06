@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\invoices;
 use App\Models\invoicesReturns;
 use App\Models\Suppliers;
+use App\Models\supplierPay;
 use Illuminate\Http\Request;
+use App\Exports\supplierPayExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class accountStatement extends Controller
 {
@@ -37,17 +40,19 @@ class accountStatement extends Controller
         $supplierBalance =Suppliers::where('id', $suppliers)->pluck('start_balance');
         $sumInvoicesBalance = invoices::whereBetween('invoice_Date',["1990-01-01",$dateModify])->where('supplier_id',$suppliers)->sum('total');
         $sumInvoicesReturnsBalance = invoicesReturns::whereBetween('invoice_Date',['1990-01-01',$dateModify])->where('supplier_id',$suppliers)->sum('total');
+        $sumPayBalance = supplierPay::whereBetween('date_pay',['1990-01-01',$dateModify])->where('supplier_id',$suppliers)->sum('value');
         // get data for user show and send it by ajax request
         $supplier =Suppliers::where('id', $suppliers)->get();
         $invoices = invoices::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->get()->toArray();
         $invoicesSum = invoices::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->sum('total');
         $invoicesReturns = invoicesReturns::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->get()->toArray();
         $invoicesReturnsSum = invoicesReturns::whereBetween('invoice_Date',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->sum('total');
-        $results = array_merge($invoices, $invoicesReturns);
+        $supllierPays = supplierPay::whereBetween('date_pay',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->get()->toArray();
+        $supllierPaysSum = supplierPay::whereBetween('date_pay',[$date_start_format,$date_end_format])->where('supplier_id',$suppliers)->sum('value');
+        $results = array_merge($invoices, $invoicesReturns,$supllierPays);
         usort($results, function($a,$b) {
             return $a['created_at'] > $b['created_at'];
         });
-        //return json_encode($results);
         return response()->json([
             'statment'=>$results,
             'supplier'=>$supplier,
@@ -58,7 +63,17 @@ class accountStatement extends Controller
             'supplierBalance'=>$supplierBalance[0],
             'sumInvoicesBalance'=>$sumInvoicesBalance,
             'sumInvoicesReturnsBalance'=>$sumInvoicesReturnsBalance,
+            'sumPayBalance'=>$sumPayBalance,
+            'supllierPaysSum'=>$supllierPaysSum
             ]);
+
+    }
+    public function export(Request $request)
+    {
+        $id = $request->id_supplier;
+        $start = $request->excel_start;
+        $end = $request->excel_end;
+        return Excel::download(new supplierPayExport($id,$start,$end), 'accouent Statment.xlsx');
 
     }
 }
