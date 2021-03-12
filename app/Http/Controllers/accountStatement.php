@@ -16,11 +16,24 @@ class accountStatement extends Controller
 
         $this->middleware('permission:كشف حساب مورد', ['only' => ['index','getStatement']]);
     }
-    public function index(){
-
+    public function index()
+    {
+        /*
+        $invoices = invoices::whereBetween('invoice_Date',['2020-01-01','2021-06-01'])->where('supplier_id','2')->get()->toArray();
+        $invoicesReturns = invoicesReturns::whereBetween('invoice_Date',['2020-01-01','2021-06-01'])->where('supplier_id','2')->get()->toArray();
+        $supllierPays = supplierPay::whereBetween('date_pay',['2020-01-01','2021-06-01'])->where('supplier_id','2')->get()->toArray();
+        $results = array_merge($invoices, $invoicesReturns,$supllierPays);
+        usort($results, function($a,$b) {
+            return $a['created_at'] > $b['created_at'];
+        });
+        foreach($results as $result){
+            foreach($result as $r){
+                echo $r . "<br>";
+            }
+        }
+        */
         $suppliers =Suppliers::where('status', "مفعل")->get(['id','supplier_name']);
         return view('suppliers.accountStatement',compact('suppliers'));
-
     }
     public  function getStatement(Request $request, $id )
     {

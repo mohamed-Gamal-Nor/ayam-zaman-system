@@ -98,7 +98,7 @@ Route::get('accountStatement/export/', 'App\Http\Controllers\accountStatement@ex
 Route::resource('purchases', 'App\Http\Controllers\PurchasesController');
 
 Route::resource('supplierPays','App\Http\Controllers\SupplierPayController');
-
+Route::get('supplierPays/getDownload/{id}','App\Http\Controllers\SupplierPayController@getDownload')->name('downlaodFile');
 Route::resource('products', 'App\Http\Controllers\ProductsController');
 Route::resource('storesGoods','App\Http\Controllers\GoodsStoreController');
 

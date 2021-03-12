@@ -98,16 +98,13 @@
         </tr>
     </thead>
     <tbody>
-        <?php $i=0;?>
-        @foreach ($results as  $result)
-        <?php $i++?>
-            <tr>
-                <th>{{$i}}</th></th>
-                <th>{{$results->statment}}</th>
-                <th>{{$sumInvoicesReturnsBalance}}</th>
-                <th>{{$sumPayBalance}}</th>
-            </tr>
-        @endforeach
+        <tr>
+            @foreach ($results as  $result)
+                @foreach ($result as $r)
+                    <th>{{$r->statment}}</th>
+                @endforeach
+            @endforeach
+        </tr>
     </tbody>
 </table>
 
